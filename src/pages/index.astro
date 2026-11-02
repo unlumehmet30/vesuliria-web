@@ -1,18 +1,38 @@
 ---
 import Base from '../layouts/Base.astro';
+import FlowField from '../components/FlowField.astro';
 ---
 <Base title="Vesuliria — Ideas, Research & Technology">
 <section class="hero">
- <div class="hero-img" aria-hidden="true"></div>
- <div class="container"><div class="hero-content"><div class="eyebrow">Research / Software / Engineering</div><h1>Ideas, research<br/>and technology —<br/><em>with a purpose.</em></h1><p>We explore new possibilities, build practical solutions, and develop technology that creates real value.</p><a class="button-light" href="/work">Explore our work <span aria-hidden="true">↗</span></a></div></div>
- <div class="hero-bottom"><div class="container"><span>Independent by design</span><span>Scroll to discover ↓</span></div></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <FlowField id="home-hero" />
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <div class="eyebrow">Research / Software / Engineering</div>
+      <h1>Ideas, research<br/>and technology —<br/><em>with a purpose.</em></h1>
+      <p>We explore new possibilities, build practical solutions, and develop technology that creates real value.</p>
+      <a class="hero-action" href="/work"><span class="circle-arrow" aria-hidden="true">↗</span><span>Explore our work</span></a>
+    </div>
+  </div>
+  <div class="hero-bottom"><div class="container"><span>01 / 04 <i class="progress-rule" aria-hidden="true"></i></span><span>Independent by design</span><span>Scroll to discover ↓</span></div></div>
 </section>
-<section class="section container">
-<div class="intro-grid"><div><div class="eyebrow">01 / Who we are</div><h2 class="section-title">Not bound<br/>by one idea.</h2></div><div class="intro-copy"><p>Vesuliria is an independent technology company working across research, software, and engineering. We approach each idea with curiosity, test it with rigor, and build only what earns its place in the world.</p><p class="muted">Our interests span intelligent systems, useful software and emerging technologies. The common thread is thoughtful execution.</p><a href="/about" class="arrow-link">More about Vesuliria <span>↗</span></a><div class="signature">Curiosity with discipline.</div></div></div>
-<div class="pillars" style="margin-top:100px"><div class="pillar"><span class="number">01</span><strong>Artificial Intelligence</strong></div><div class="pillar"><span class="number">02</span><strong>Software</strong></div><div class="pillar"><span class="number">03</span><strong>Research</strong></div><div class="pillar"><span class="number">04</span><strong>Engineering</strong></div></div>
+<section class="section container editorial-intro">
+  <div class="intro-grid"><div><div class="eyebrow">01 / The company</div><h2 class="section-title">Independent<br/>by nature.</h2></div><div class="intro-copy"><p>Vesuliria is an independent technology company exploring the intersection of artificial intelligence, software, and engineering.</p><p class="muted">We’re interested in ideas that can be questioned, tested, and turned into something genuinely useful — not technology for its own sake.</p><a href="/about" class="arrow-link">Get to know Vesuliria <span>↗</span></a></div></div>
+  <div class="pillars"><div class="pillar"><span class="number">01</span><strong>Intelligent Systems</strong></div><div class="pillar"><span class="number">02</span><strong>Software</strong></div><div class="pillar"><span class="number">03</span><strong>Applied Research</strong></div><div class="pillar"><span class="number">04</span><strong>Engineering</strong></div></div>
 </section>
-<section class="section dark-section"><div class="container"><div class="eyebrow">02 / What interests us</div><h2 class="section-title">Different disciplines.<br/>Shared curiosity.</h2><p class="lead muted">We move between exploration and execution — connecting ideas, methods, and technologies when there is a meaningful problem to solve.</p><div class="feature-grid"><a href="/work" class="feature"><div class="index">AREA / 01</div><div><div class="icon-mark">↗</div><h3>Intelligent systems</h3><p>Studying how intelligence can make software and systems more useful.</p></div></a><a href="/work" class="feature"><div class="index">AREA / 02</div><div><div class="icon-mark">⌘</div><h3>Digital products</h3><p>Engineering experiences that are clear, dependable and human-centered.</p></div></a><a href="/research" class="feature"><div class="index">AREA / 03</div><div><div class="icon-mark">◎</div><h3>Applied research</h3><p>Asking better questions and turning experiments into knowledge.</p></div></a></div></div></section>
-<section class="split-editorial"><div class="visual" role="img" aria-label="Minimalist contemporary architectural structure"></div><div class="text-side"><div class="eyebrow">03 / Our approach</div><h2 class="statement">Built on questions.<br/>Grounded in evidence.</h2><p class="lead muted">We value substance over spectacle, simplicity over noise, and lasting usefulness over passing trends.</p><a class="arrow-link" href="/approach">How we think <span>↗</span></a></div></section>
-<section class="section container"><div class="eyebrow">04 / Explorations</div><div class="intro-grid"><h2 class="section-title">A place for<br/>what's next.</h2><div><p class="lead">Our work evolves as ideas are explored, tested, and refined. This space will share selected projects when they're ready to be shown.</p><a href="/work" class="arrow-link">Visit our work <span>↗</span></a></div></div></section>
-<section class="callout"><div class="container"><div class="eyebrow">Let's start a conversation</div><h2 class="section-title">Good work begins<br/>with a good question.</h2><a href="/contact" class="arrow-link">Get in touch <span>↗</span></a></div></section>
+<section class="section capabilities-section"><div class="container">
+  <div class="section-topline"><span class="eyebrow">02 / Capabilities</span><span class="eyebrow">Ideas meet implementation</span></div>
+  <h2 class="section-title">Thinking deeply.<br/>Building deliberately.</h2>
+  <div class="capability-rows">
+    <a href="/work" class="capability-row"><span class="cap-number">01</span><h3>Artificial intelligence</h3><p>Applied intelligence, model engineering and systems designed around real needs.</p><span class="cap-arrow" aria-hidden="true">↗</span></a>
+    <a href="/work" class="capability-row"><span class="cap-number">02</span><h3>Software & products</h3><p>Interfaces and infrastructure shaped by clarity, performance and thoughtful craft.</p><span class="cap-arrow" aria-hidden="true">↗</span></a>
+    <a href="/research" class="capability-row"><span class="cap-number">03</span><h3>Research & exploration</h3><p>Questions, prototypes and experiments that help promising ideas earn their place.</p><span class="cap-arrow" aria-hidden="true">↗</span></a>
+  </div>
+</div></section>
+<section class="split-editorial">
+  <div class="visual abstract-panel"><FlowField id="home-panel" /><div class="visual-label"><span>EXPLORATION / SYSTEMS</span><span>V.001</span></div></div>
+  <div class="text-side"><div class="eyebrow">03 / Our approach</div><h2 class="statement">Rigorous thinking.<br/>Room to imagine.</h2><p class="lead muted">We value the freedom to explore and the discipline to measure. Every good idea deserves both.</p><a class="arrow-link" href="/approach">Our principles <span>↗</span></a></div>
+</section>
+<section class="section container explorations"><div class="eyebrow">04 / Looking ahead</div><div class="intro-grid"><h2 class="section-title">Progress begins<br/>with curiosity.</h2><div><p class="lead">We’re building a place for experiments, technical perspectives and products worth sharing. We’ll publish work here when it’s ready.</p><a href="/research" class="arrow-link">Explore our research <span>↗</span></a></div></div></section>
+<section class="callout"><div class="container"><div class="eyebrow">A conversation is a good beginning</div><h2 class="section-title">Have an idea<br/>worth exploring?</h2><a href="/contact" class="arrow-link">Contact Vesuliria <span>↗</span></a></div></section>
 </Base>

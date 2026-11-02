@@ -1,22 +1,33 @@
-# Vesuliria
+# Vesuliria Website
 
-A considered digital home for an independent technology company. Built with Astro and plain CSS.
+The official multi-page site for Vesuliria, an independent technology company.
 
-## Development
+## Stack
+- Astro 5
+- TypeScript (Astro project)
+- Responsive custom CSS; no heavyweight UI or animation dependencies
+- Deterministic SVG graphics for the visual identity (no architectural stock photography)
+- Sitewide dark/light theme with accessible toggle and persisted preference
 
-```bash
+## Run locally
+```sh
 npm install
 npm run dev
 npm run build
 ```
 
+## Pages
+Home / About / Work / Research / Approach / Contact
+
 ## Deployment
+Cloudflare Pages:
+- Build command: `npm run build`
+- Output directory: `dist`
+- Framework preset: Astro
 
-Cloudflare Pages: build command `npm run build`, output directory `dist`.
-
-## Content and assets
-
-- Website copy deliberately avoids invented clients, projects, or performance claims.
-- The architectural image in the hero is a temporary externally-hosted reference. Replace with licensed original photography before launch.
-- Contact page uses a copy-to-clipboard email placeholder pattern; set a real contact address before launch.
-- Check legal entity name, domain and site URL before production.
+## Notes before publishing
+- Copy does not claim invented customers, projects, teams or performance statistics.
+- Connect a real company contact email when ready.
+- Update the production domain in `astro.config.mjs` if different from `vesuliria.com`.
+- Abstract graphics are generated from version-controlled SVG paths and dots in `src/components/FlowField.astro`, rather than external images.
+- Test desktop/mobile, keyboard navigation, and reduced-motion settings.

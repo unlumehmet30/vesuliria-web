@@ -1,40 +1,84 @@
 ---
 import '../styles/global.css';
-const { title = 'Vesuliria — Independent Technology Company', description = 'An independent technology company exploring software, research and engineering with purpose.', active = '' } = Astro.props;
+const { title = 'Vesuliria — Independent Technology Company', description = 'An independent technology company exploring artificial intelligence, software, research and engineering with purpose.', active = '' } = Astro.props;
 const nav = [['About','/about'],['Work','/work'],['Research','/research'],['Approach','/approach'],['Contact','/contact']];
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#101719" />
+<meta name="theme-color" content="#111618" />
 <meta name="description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
 <title>{title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<script is:inline>
+try {
+  const stored = localStorage.getItem('vesuliria-theme');
+  document.documentElement.dataset.theme = stored === 'light' ? 'light' : 'dark';
+} catch { /* private browsing restrictions: default to dark */ }
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
- <a class="wordmark" href="/" aria-label="Vesuliria homepage">vesuliria<span>.</span></a>
- <nav class="desktop-nav" aria-label="Main navigation">{nav.map(([name,href]) => <a href={href} aria-current={active===name?'page':undefined}>{name}</a>)}</nav>
- <a class="header-cta" href="/contact">Let's connect <span aria-hidden="true">↗</span></a>
- <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Toggle navigation"><span></span><span></span></button>
+  <a class="wordmark" href="/" aria-label="Vesuliria homepage">vesuliria<span>.</span></a>
+  <div class="header-right">
+    <nav class="desktop-nav" aria-label="Main navigation">{nav.map(([name,href]) => <a href={href} aria-current={active===name?'page':undefined}>{name}</a>)}</nav>
+    <span class="nav-separator" aria-hidden="true"></span>
+    <button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false" title="Toggle color theme">
+      <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M19.07 4.93l-1.42 1.42M6.35 17.65l-1.42 1.42"/></svg>
+      <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M20.8 14.2A9 9 0 0 1 9.8 3.2 9 9 0 1 0 20.8 14.2Z"/></svg>
+      <span class="theme-label">Light</span>
+    </button>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Toggle navigation"><span></span><span></span></button>
+  </div>
 </header>
 <nav id="mobile-navigation" class="mobile-nav" aria-label="Mobile navigation" hidden>{nav.map(([name,href]) => <a href={href} aria-current={active===name?'page':undefined}>{name}<span aria-hidden="true">↗</span></a>)}</nav>
 <main id="main"><slot /></main>
 <footer class="footer">
-  <div class="footer-top"><div><a class="wordmark" href="/">vesuliria<span>.</span></a><p>Independent thinking.<br />Thoughtful engineering.</p></div><div class="footer-links"><a href="/about">About</a><a href="/work">Work</a><a href="/research">Research</a><a href="/approach">Approach</a><a href="/contact">Contact</a></div></div>
-  <div class="footer-bottom"><span>© {new Date().getFullYear()} Vesuliria</span><span>Built with intention.</span><a href="#main">Back to top ↑</a></div>
+  <div class="footer-top">
+    <div class="footer-brand"><a class="wordmark" href="/">vesuliria<span>.</span></a><p>Curiosity with discipline.<br/>Technology with purpose.</p></div>
+    <div class="footer-links">{nav.map(([name,href]) => <a href={href}>{name}</a>)}</div>
+  </div>
+  <div class="footer-bottom"><span>© {new Date().getFullYear()} Vesuliria</span><span>Independent technology company</span><a href="#main">Back to top ↑</a></div>
 </footer>
 <script>
-const button=document.querySelector('.menu-toggle');
-const menu=document.querySelector('.mobile-nav');
-button?.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!open));if(menu)menu.hidden=open;document.body.classList.toggle('menu-open',!open);});
-menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(menu)menu.hidden=true;button?.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');}));
+const button=document.querySelector<HTMLButtonElement>('.menu-toggle');
+const menu=document.querySelector<HTMLElement>('.mobile-nav');
+button?.addEventListener('click',()=>{
+  const open=button.getAttribute('aria-expanded')==='true';
+  button.setAttribute('aria-expanded',String(!open));
+  if(menu)menu.hidden=open;
+  document.body.classList.toggle('menu-open',!open);
+});
+menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  if(menu)menu.hidden=true;
+  button?.setAttribute('aria-expanded','false');
+  document.body.classList.remove('menu-open');
+}));
+const themeButton = document.querySelector<HTMLButtonElement>('.theme-toggle');
+function syncThemeButton(){
+  const light=document.documentElement.dataset.theme==='light';
+  themeButton?.setAttribute('aria-label',light?'Switch to dark mode':'Switch to light mode');
+  themeButton?.setAttribute('aria-pressed',String(light));
+  const label=themeButton?.querySelector('.theme-label');
+  if(label)label.textContent=light?'Dark':'Light';
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content',light?'#f4f3ee':'#111618');
+}
+syncThemeButton();
+themeButton?.addEventListener('click',()=>{
+  const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+  document.documentElement.dataset.theme=next;
+  try{localStorage.setItem('vesuliria-theme',next);}catch{}
+  syncThemeButton();
+});
 </script>
 </body>
 </html>
