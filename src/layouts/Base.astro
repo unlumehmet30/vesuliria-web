@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+const { title = 'Vesuliria — Independent Technology Company', description = 'An independent technology company exploring software, research and engineering with purpose.', active = '' } = Astro.props;
+const nav = [['About','/about'],['Work','/work'],['Research','/research'],['Approach','/approach'],['Contact','/contact']];
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#101719" />
+<meta name="description" content={description} />
+<title>{title}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+ <a class="wordmark" href="/" aria-label="Vesuliria homepage">vesuliria<span>.</span></a>
+ <nav class="desktop-nav" aria-label="Main navigation">{nav.map(([name,href]) => <a href={href} aria-current={active===name?'page':undefined}>{name}</a>)}</nav>
+ <a class="header-cta" href="/contact">Let's connect <span aria-hidden="true">↗</span></a>
+ <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Toggle navigation"><span></span><span></span></button>
+</header>
+<nav id="mobile-navigation" class="mobile-nav" aria-label="Mobile navigation" hidden>{nav.map(([name,href]) => <a href={href} aria-current={active===name?'page':undefined}>{name}<span aria-hidden="true">↗</span></a>)}</nav>
+<main id="main"><slot /></main>
+<footer class="footer">
+  <div class="footer-top"><div><a class="wordmark" href="/">vesuliria<span>.</span></a><p>Independent thinking.<br />Thoughtful engineering.</p></div><div class="footer-links"><a href="/about">About</a><a href="/work">Work</a><a href="/research">Research</a><a href="/approach">Approach</a><a href="/contact">Contact</a></div></div>
+  <div class="footer-bottom"><span>© {new Date().getFullYear()} Vesuliria</span><span>Built with intention.</span><a href="#main">Back to top ↑</a></div>
+</footer>
+<script>
+const button=document.querySelector('.menu-toggle');
+const menu=document.querySelector('.mobile-nav');
+button?.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!open));if(menu)menu.hidden=open;document.body.classList.toggle('menu-open',!open);});
+menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(menu)menu.hidden=true;button?.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');}));
+</script>
+</body>
+</html>
