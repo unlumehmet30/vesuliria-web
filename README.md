@@ -20,10 +20,12 @@ npm run build
 Home / About / Work / Research / Approach / Contact
 
 ## Deployment
-Cloudflare Pages:
-- Build command: `npm run build`
-- Output directory: `dist`
-- Framework preset: Astro
+GitHub Pages at `https://vesuliria.com`. Every push to `main` builds and deploys
+via `.github/workflows/deploy.yml`.
+
+Products:
+- `public/avt/`: Vesuliria AVT product site (static HTML, TR + `en/`), served at `/avt/`.
+- Sketchmindai lives on its own domain (`sketchmindai.com`, repo `sketchmind-site`).
 
 ## Notes before publishing
 - Copy does not claim invented customers, projects, teams or performance statistics.
