@@ -27,6 +27,8 @@ The production website is generated in `dist/`. No database, API credentials, ba
 - `/company` — Company
 - `/capabilities` — Capabilities, with native expandable details
 - `/work` — Work and products
+- `/work/<slug>` — Product page: overview, highlights, results, demo videos, screens, then a link to the product's own site
+- `/avt/` — Vesuliria AVT product site (static HTML in `public/avt/`, TR + `en/`)
 - `/contact` — Contact
 - `/404.html` — Not found
 
@@ -35,13 +37,14 @@ Old `/about`, `/approach`, and `/research` links are retained as static redirect
 ## Content and configuration
 
 - `src/data/site.ts`: company description, official email, navigation and capability copy. Leave `email` empty until a real mailbox is ready. Setting it renders functional email links on Contact and in the footer.
-- `src/data/projects.ts`: confirmed project data. Add only work whose relationship to Vesuliria, status, imagery and public links are approved. The reusable `Project.astro` supports landscape, square and portrait formats.
+- `src/data/projects.ts`: confirmed project data. Add only work whose relationship to Vesuliria, status, imagery and public links are approved. Each entry drives its card on Home and Work and its page under `/work/<slug>`. Images live in `src/assets/products/`.
+  - Demo videos: add to the project's `videos` list, either `{ title, embed: 'https://www.youtube-nocookie.com/embed/<id>' }` or `{ title, file: '/videos/<name>.mp4' }` with the file in `public/videos/`. The Demo section appears only when the list is not empty.
 - `src/pages/`: short editorial copy and page compositions.
 - `src/styles/global.css`: palette, font, spacing, motion and responsive tokens; Tailwind is integrated through its Vite plugin.
 - `src/components/`: brand, header, footer, image, link and project components.
 - `docs/ASSETS.md`: photo sources and font licenses.
 
-There are no fabricated customers, product screenshots, employees, statistics, or contact details. The source mockup guides the art direction and is not embedded in the website.
+There are no fabricated customers, employees, statistics, or contact details. Product screenshots are taken from the running products; AVT's come from a synthetic demo dataset. The source mockup guides the art direction and is not embedded in the website.
 
 ## Deploy
 

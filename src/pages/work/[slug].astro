@@ -1,0 +1,113 @@
+---
+import Base from '../../layouts/Base.astro';
+import Action from '../../components/Action.astro';
+import EditorialImage from '../../components/EditorialImage.astro';
+import { projects, type Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+interface Props { project: Project; }
+const { project } = Astro.props;
+const index = projects.findIndex((item) => item.slug === project.slug);
+const next = projects.length > 1 ? projects[(index + 1) % projects.length] : undefined;
+const external = /^https?:/.test(project.site.href);
+---
+<Base title={`${project.name} — Vesuliria`} description={project.description}>
+  <section class="product-intro shell">
+    <nav class="mono section-label product-crumbs" aria-label="Breadcrumb"><a href="/work">Work</a><span aria-hidden="true">/</span><span>{project.name}</span></nav>
+    <div class="product-heading">
+      <h1>{project.name}</h1>
+      <div>
+        <p class="product-tagline">{project.tagline}</p>
+        <dl class="product-meta mono">
+          <div><dt>Category</dt><dd>{project.category}</dd></div>
+          <div><dt>Status</dt><dd>{project.status}</dd></div>
+        </dl>
+      </div>
+    </div>
+    <figure class="product-cover">
+      <EditorialImage src={project.image} alt={project.imageAlt} eager sizes="(max-width: 1440px) 100vw, 1300px" />
+    </figure>
+  </section>
+
+  <section class="product-overview shell">
+    <p class="mono section-label">Overview</p>
+    <div class="product-overview-text">
+      {project.intro.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <section class="product-highlights shell" aria-label="Highlights">
+    {project.highlights.map((item) => (
+      <article>
+        <h2>{item.title}</h2>
+        <p>{item.text}</p>
+      </article>
+    ))}
+  </section>
+
+  {project.facts && (
+    <section class="product-facts" aria-label="Results">
+      <div class="shell">
+        <p class="mono section-label">Results</p>
+        <dl>
+          {project.facts.map((fact) => <div><dt>{fact.value}</dt><dd>{fact.label}</dd></div>)}
+        </dl>
+        {project.factsNote && <p class="product-facts-note">{project.factsNote}</p>}
+      </div>
+    </section>
+  )}
+
+  {project.videos.length > 0 && (
+    <section class="product-videos shell" aria-label="Demo">
+      <p class="mono section-label">Demo</p>
+      {project.videos.map((video) => (
+        <figure>
+          <div class="product-video">
+            {video.embed
+              ? <iframe src={video.embed} title={video.title} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>
+              : <video src={video.file} controls preload="metadata"></video>}
+          </div>
+          <figcaption class="mono">{video.title}</figcaption>
+        </figure>
+      ))}
+    </section>
+  )}
+
+  <section class="product-gallery shell" aria-label="Screens">
+    <p class="mono section-label">Screens</p>
+    <div class="product-gallery-grid">
+      {project.gallery.map((figure) => (
+        <figure class:list={['product-figure', `product-figure-${figure.aspect || 'landscape'}`]}>
+          <div class="product-figure-image"><EditorialImage src={figure.image} alt={figure.alt} sizes="(max-width: 768px) 100vw, 50vw" /></div>
+          <figcaption class="mono">{figure.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="identity-section product-cta">
+    <div class="shell identity-grid">
+      <p class="mono section-label">Next step</p>
+      <div>
+        <h2>Learn more about {project.name}.</h2>
+        <div class="product-cta-actions">
+          <a class="button" href={project.site.href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>{project.site.label}<span aria-hidden="true">↗</span></a>
+          <Action href="/contact" label="Talk to us" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {next && (
+    <section class="product-next shell">
+      <a href={`/work/${next.slug}/`}>
+        <span class="mono section-label">Next product</span>
+        <span class="product-next-name">{next.name}</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </section>
+  )}
+</Base>
