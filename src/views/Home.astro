@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro';
+import Action from '../components/Action.astro';
+import ProductList from '../components/ProductList.astro';
+import EditorialImage from '../components/EditorialImage.astro';
+import atlas from '../assets/workshop/research-atlas.webp';
+import { capabilities } from '../data/site';
+import { localize, type Lang } from '../i18n';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+const l = (path: string) => localize(lang, path);
+const t = {
+  en: {
+    title: 'Vesuliria — Software engineering and applied research',
+    kicker: 'Independent technology company',
+    heading: ['Research.', 'Engineering.', 'Products'],
+    intro: 'We test ideas through applied research and build the software and products that follow.',
+    explore: 'Explore our capabilities',
+    about: 'About Vesuliria',
+    atlasAlt: 'Layered contour lines, grids and rust-colored geometric forms on paper',
+    atlasCaption: 'Concept illustration',
+    products: 'Products',
+    viewWork: 'View our work',
+    areas: 'Areas of work',
+    viewCapabilities: 'View capabilities',
+    how: 'How we work',
+    approach: 'Our approach',
+    steps: [
+      ['Define the problem', 'Identify what needs to change and how we’ll tell if it has improved.'],
+      ['Test an approach', 'Build a small prototype and measure the result against a baseline.'],
+      ['Build for daily use', 'Make the software easy to operate, diagnose and maintain.'],
+    ],
+  },
+  tr: {
+    title: 'Vesuliria — Yazılım mühendisliği ve uygulamalı araştırma',
+    kicker: 'Bağımsız teknoloji şirketi',
+    heading: ['Araştırma.', 'Mühendislik.', 'Ürünler'],
+    intro: 'Fikirleri uygulamalı araştırmayla sınar, ardından gelen yazılımı ve ürünleri inşa ederiz.',
+    explore: 'Yeteneklerimize göz atın',
+    about: 'Vesuliria hakkında',
+    atlasAlt: 'Kâğıt üzerinde katmanlı eş yükselti çizgileri, ızgaralar ve pas rengi geometrik biçimler',
+    atlasCaption: 'Konsept illüstrasyon',
+    products: 'Ürünler',
+    viewWork: 'İşlerimizi görün',
+    areas: 'Çalışma alanları',
+    viewCapabilities: 'Yetenekleri görün',
+    how: 'Nasıl çalışırız',
+    approach: 'Yaklaşımımız',
+    steps: [
+      ['Sorunu tanımla', 'Neyin değişmesi gerektiğini ve iyileştiğini nasıl anlayacağımızı belirleriz.'],
+      ['Bir yaklaşım dene', 'Küçük bir prototip kurar, sonucu bir karşılaştırma noktasına göre ölçeriz.'],
+      ['Günlük kullanım için inşa et', 'Yazılımı işletmesi, sorununu bulması ve bakımı kolay hale getiririz.'],
+    ],
+  },
+}[lang];
+---
+<Base title={t.title} lang={lang}>
+  <section class="brand-hero shell">
+    <div class="brand-hero-copy">
+      <p class="brand-kicker">{t.kicker}</p>
+      <h1>{t.heading[0]}<br />{t.heading[1]}<br />{t.heading[2]}<span>.</span></h1>
+      <p class="brand-intro">{t.intro}</p>
+      <div class="brand-actions">
+        <a class="brand-button" href="#areas">{t.explore} <span aria-hidden="true">↓</span></a>
+        <Action href={l('/company')} label={t.about} />
+      </div>
+    </div>
+
+    <figure class="brand-plate">
+      <EditorialImage
+        src={atlas}
+        alt={t.atlasAlt}
+        eager
+        sizes="(max-width: 840px) 100vw, 58vw"
+      />
+      <figcaption class="mono">Research Atlas <span>{t.atlasCaption}</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="systems-areas paper" id="products">
+    <div class="shell">
+      <div class="systems-section-heading">
+        <h2>{t.products}</h2>
+        <Action href={l('/work')} label={t.viewWork} />
+      </div>
+      <ProductList lang={lang} />
+    </div>
+  </section>
+
+  <section class="systems-areas paper" id="areas">
+    <div class="shell">
+      <div class="systems-section-heading">
+        <h2>{t.areas}</h2>
+        <Action href={l('/capabilities')} label={t.viewCapabilities} />
+      </div>
+      <div class="systems-area-grid">
+        {capabilities[lang].map((capability) => (
+          <a class="systems-area" href={`${l('/capabilities')}#${capability.id}`}>
+            <h3>{capability.name}</h3>
+            <p>{capability.description}</p>
+            <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="systems-method">
+    <div class="shell systems-method-grid">
+      <div>
+        <h2>{t.how}</h2>
+        <Action href={l('/company')} label={t.approach} />
+      </div>
+      <ol class="systems-steps">
+        {t.steps.map(([title, text]) => <li><h3>{title}</h3><p>{text}</p></li>)}
+      </ol>
+    </div>
+  </section>
+</Base>

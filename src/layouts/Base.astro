@@ -3,14 +3,31 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
-const { title = 'Vesuliria — Independent Technology Company', description = site.description, dark = false, overlay = false, noindex = false } = Astro.props;
+import { alternatePath, ui, type Lang } from '../i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+  dark?: boolean;
+  overlay?: boolean;
+  noindex?: boolean;
+  lang?: Lang;
+  /** The same page in the other language; computed for umbrella-site paths when omitted. */
+  alternate?: string | null;
+}
+
+const { title = 'Vesuliria — Independent Technology Company', lang = 'en', dark = false, overlay = false, noindex = false } = Astro.props;
+const description = Astro.props.description ?? site.description[lang];
+const alternate = Astro.props.alternate === undefined ? alternatePath(lang, Astro.url.pathname) : Astro.props.alternate;
+const otherLang: Lang = lang === 'en' ? 'tr' : 'en';
 const canonical = new URL(noindex ? '/404.html' : Astro.url.pathname, site.url);
 ---
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang={lang}><head>
 <meta charset="utf-8"/><link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content={dark?'#242520':'#F3F0E8'}/><title>{title}</title><meta name="description" content={description}/><link rel="canonical" href={canonical}/>
-<meta property="og:type" content="website"/><meta property="og:site_name" content="Vesuliria"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:image" content={new URL('/social.jpg',site.url)}/><meta name="twitter:card" content="summary_large_image"/>
+{!noindex && alternate && <><link rel="alternate" hreflang={lang} href={canonical}/><link rel="alternate" hreflang={otherLang} href={new URL(alternate, site.url)}/></>}
+<meta property="og:type" content="website"/><meta property="og:site_name" content="Vesuliria"/><meta property="og:locale" content={lang === 'tr' ? 'tr_TR' : 'en_GB'}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:image" content={new URL('/social.jpg',site.url)}/><meta name="twitter:card" content="summary_large_image"/>
 {noindex && <meta name="robots" content="noindex,follow"/>}<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-</head><body class:list={[dark?'theme-dark':'theme-light']}><a class="skip" href="#main">Skip to content</a><Header overlay={overlay}/><main id="main" tabindex="-1"><slot/></main><Footer/>
+</head><body class:list={[dark?'theme-dark':'theme-light']}><a class="skip" href="#main">{ui[lang].skip}</a><slot name="header"><Header overlay={overlay} lang={lang} alternate={alternate}/></slot><main id="main" tabindex="-1"><slot/></main><Footer lang={lang}/>
 
 </body></html>

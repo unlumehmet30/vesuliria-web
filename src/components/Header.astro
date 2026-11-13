@@ -1,18 +1,24 @@
 ---
 import Brand from './Brand.astro';
 import { navigation } from '../data/site';
-const { overlay = false } = Astro.props;
+import { localize, ui, type Lang } from '../i18n';
+interface Props { overlay?: boolean; lang?: Lang; alternate?: string | null; }
+const { overlay = false, lang = 'en', alternate = null } = Astro.props;
+const t = ui[lang];
+const items = navigation(lang);
+const contactHref = localize(lang, '/contact');
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const active = (href: string) => current === href || current.startsWith(`${href}/`) ? 'page' : undefined;
 ---
 <header id="top" class:list={['site-header', { 'header-overlay': overlay }]}>
-<div class="header-inner shell"><Brand/><nav class="desktop-nav" aria-label="Main navigation">{navigation.map(item=><a class="nav-link" href={item.href} aria-current={current===item.href?'page':undefined}>{item.label}</a>)}</nav><a class="header-contact text-link" href="/contact" aria-current={current==='/contact'?'page':undefined}>Contact <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Open navigation"><span></span><span></span></button></div>
-<nav class="mobile-nav shell" id="mobile-navigation" aria-label="Mobile navigation" hidden>{[...navigation,{label:'Contact',href:'/contact'}].map(item=><a href={item.href} aria-current={current===item.href?'page':undefined}>{item.label}<span aria-hidden="true">↗</span></a>)}</nav>
+<div class="header-inner shell"><Brand lang={lang}/><nav class="desktop-nav" aria-label={t.mainNav}>{items.map(item=><a class="nav-link" href={item.href} aria-current={active(item.href)}>{item.label}</a>)}</nav><div class="header-actions">{alternate && <a class="lang-switch mono" href={alternate} hreflang={lang === 'en' ? 'tr' : 'en'} aria-label={t.switchLabel}>{t.switchShort}</a>}<a class="header-contact text-link" href={contactHref} aria-current={active(contactHref)}>{t.contact} <span aria-hidden="true">↗</span></a></div><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-label={t.openNav} data-open={t.openNav} data-close={t.closeNav}><span></span><span></span></button></div>
+<nav class="mobile-nav shell" id="mobile-navigation" aria-label={t.mobileNav} hidden>{[...items,{label:t.contact,href:contactHref}].map(item=><a href={item.href} aria-current={active(item.href)}>{item.label}<span aria-hidden="true">↗</span></a>)}{alternate && <a href={alternate} hreflang={lang === 'en' ? 'tr' : 'en'}>{t.switchLabel}<span aria-hidden="true">↗</span></a>}</nav>
 </header>
 <script>
 const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
 const menu = document.querySelector<HTMLElement>('.mobile-nav');
-function closeMenu(){if(!button||!menu)return;button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Open navigation');menu.hidden=true;}
-button?.addEventListener('click',()=>{if(!menu)return;const open=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!open));button.setAttribute('aria-label',open?'Open navigation':'Close navigation');menu.hidden=open;});
+function closeMenu(){if(!button||!menu)return;button.setAttribute('aria-expanded','false');button.setAttribute('aria-label',button.dataset.open||'');menu.hidden=true;}
+button?.addEventListener('click',()=>{if(!menu)return;const open=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!open));button.setAttribute('aria-label',(open?button.dataset.open:button.dataset.close)||'');menu.hidden=open;});
 document.addEventListener('keydown',event=>{if(event.key==='Escape' && button?.getAttribute('aria-expanded')==='true'){closeMenu();button.focus();}});
 menu?.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
 window.matchMedia('(min-width: 769px)').addEventListener('change',event=>{if(event.matches)closeMenu();});

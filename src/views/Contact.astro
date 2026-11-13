@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import Action from '../components/Action.astro';
+import { site } from '../data/site';
+import { localize, type Lang } from '../i18n';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+const t = {
+  en: {
+    title: 'Contact — Vesuliria',
+    description: 'Contact information for Vesuliria.',
+    heading: 'Contact',
+    lead: 'For an AVT demo or pilot, tell us about your institution and the data you’d like to analyse.',
+    empty: 'We’ll list a public email address here when it’s available.',
+    about: 'About Vesuliria',
+  },
+  tr: {
+    title: 'İletişim — Vesuliria',
+    description: 'Vesuliria iletişim bilgileri.',
+    heading: 'İletişim',
+    lead: 'AVT demosu ya da pilot için kurumunuzu ve analiz etmek istediğiniz veriyi kısaca anlatın.',
+    empty: 'Herkese açık bir e-posta adresi hazır olduğunda burada yer alacak.',
+    about: 'Vesuliria hakkında',
+  },
+}[lang];
+---
+<Base title={t.title} description={t.description} lang={lang}>
+  <section class="contact-page shell">
+    <h1>{t.heading}</h1>
+    <div class="contact-info">
+      {site.email ? (
+        <>
+          <p>{t.lead}</p>
+          <a class="contact-email text-link" href={`mailto:${site.email}`}>
+            {site.email}<span aria-hidden="true">↗</span>
+          </a>
+          <div><Action href={site.linkedin} label="LinkedIn" /></div>
+        </>
+      ) : (
+        <>
+          <p>{t.empty}</p>
+          <Action href={localize(lang, '/company')} label={t.about} />
+        </>
+      )}
+    </div>
+  </section>
+</Base>

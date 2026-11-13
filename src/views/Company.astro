@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import Action from '../components/Action.astro';
+import { localize, type Lang } from '../i18n';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+const t = {
+  en: {
+    title: 'Company — Vesuliria',
+    label: 'Company',
+    heading: ['Built to question', 'the obvious.'],
+    intro: 'Vesuliria is an independent technology company. Our work spans applied research, software engineering and product development.',
+    principles: [
+      ['Start with the problem', 'Define what needs to change before choosing how to build the software.'],
+      ['Test the assumptions', 'Use a small experiment to answer the questions that could change the design.'],
+      ['Build for daily use', 'Consider how people will use, operate and maintain the software.'],
+    ],
+    independence: 'Independence',
+    freeHeading: 'Free to follow the problem.',
+    freeText: 'We choose the methods and tools that fit each problem. Sometimes that means improving an existing system. Sometimes it means building a new one.',
+    whatWeDo: 'What we do',
+  },
+  tr: {
+    title: 'Şirket — Vesuliria',
+    label: 'Şirket',
+    heading: ['Apaçık olanı', 'sorgulamak için.'],
+    intro: 'Vesuliria bağımsız bir teknoloji şirketidir. Çalışmalarımız uygulamalı araştırma, yazılım mühendisliği ve ürün geliştirmeyi kapsar.',
+    principles: [
+      ['Sorundan başla', 'Yazılımı nasıl kuracağımızı seçmeden önce neyin değişmesi gerektiğini tanımlarız.'],
+      ['Varsayımları sına', 'Tasarımı değiştirebilecek soruları küçük bir deneyle cevaplarız.'],
+      ['Günlük kullanım için inşa et', 'İnsanların yazılımı nasıl kullanacağını, işleteceğini ve bakımını yapacağını düşünürüz.'],
+    ],
+    independence: 'Bağımsızlık',
+    freeHeading: 'Sorunun peşinden gitmekte özgürüz.',
+    freeText: 'Her soruna uyan yöntemi ve aracı seçeriz. Bazen bu, var olan bir sistemi iyileştirmek demektir. Bazen de yenisini kurmak.',
+    whatWeDo: 'Ne yapıyoruz',
+  },
+}[lang];
+---
+<Base title={t.title} lang={lang}>
+  <section class="company-intro shell">
+    <p class="mono section-label">{t.label}</p>
+    <div class="company-heading">
+      <h1>{t.heading[0]}<br />{t.heading[1]}</h1>
+      <p>{t.intro}</p>
+    </div>
+    <div class="company-principles">
+      {t.principles.map(([title, text]) => (
+        <article>
+          <h2>{title}</h2>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="identity-section">
+    <div class="shell identity-grid">
+      <p class="mono section-label">{t.independence}</p>
+      <div>
+        <h2>{t.freeHeading}</h2>
+        <p>{t.freeText}</p>
+        <Action href={localize(lang, '/capabilities')} label={t.whatWeDo} />
+      </div>
+    </div>
+  </section>
+</Base>

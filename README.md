@@ -23,12 +23,14 @@ The production website is generated in `dist/`. No database, API credentials, ba
 
 ## Pages
 
+English pages live at the root and Turkish pages under `/tr/` (`/tr/`, `/tr/company`, `/tr/work/<slug>`, …). Every page links its counterpart with `hreflang` and a language switch in the header.
+
 - `/` — Home
 - `/company` — Company
 - `/capabilities` — Capabilities, with native expandable details
 - `/work` — Work and products
 - `/work/<slug>` — Product page: overview, highlights, results, demo videos, screens, then a link to the product's own site
-- `/avt/` — Vesuliria AVT product site (static HTML in `public/avt/`, TR + `en/`)
+- `/avt/` — Vesuliria AVT sales page in Turkish, `/avt/en/` in English (`src/views/Avt.astro`, teal accent)
 - `/contact` — Contact
 - `/404.html` — Not found
 
@@ -36,10 +38,11 @@ Old `/about`, `/approach`, and `/research` links are retained as static redirect
 
 ## Content and configuration
 
-- `src/data/site.ts`: company description, official email, navigation and capability copy. Leave `email` empty until a real mailbox is ready. Setting it renders functional email links on Contact and in the footer.
-- `src/data/projects.ts`: confirmed project data. Add only work whose relationship to Vesuliria, status, imagery and public links are approved. Each entry drives its card on Home and Work and its page under `/work/<slug>`. Images live in `src/assets/products/`.
-  - Demo videos: add to the project's `videos` list, either `{ title, embed: 'https://www.youtube-nocookie.com/embed/<id>' }` or `{ title, file: '/videos/<name>.mp4' }` with the file in `public/videos/`. The Demo section appears only when the list is not empty.
-- `src/pages/`: short editorial copy and page compositions.
+- `src/i18n.ts`: languages, shared interface strings and the `localize()` / `alternatePath()` path helpers.
+- `src/data/site.ts`: company description, official email, navigation and capability copy, each in English and Turkish. Leave `email` empty until a real mailbox is ready. Setting it renders functional email links on Contact and in the footer.
+- `src/data/projects.ts`: confirmed project data. Add only work whose relationship to Vesuliria, status, imagery and public links are approved. Each entry drives its card on Home and Work and its page under `/work/<slug>`; copy, captions and video titles are written in both languages. Images live in `src/assets/products/`.
+  - Demo videos: add to the project's `videos` list, either `{ title: { en, tr }, embed: 'https://www.youtube-nocookie.com/embed/<id>' }` or `{ title: { en, tr }, file: '/videos/<name>.mp4' }` with the file in `public/videos/`. The Demo section appears only when the list is not empty.
+- `src/views/`: page compositions with their English and Turkish copy. `src/pages/` holds thin route wrappers that pick the language.
 - `src/styles/global.css`: palette, font, spacing, motion and responsive tokens; Tailwind is integrated through its Vite plugin.
 - `src/components/`: brand, header, footer, image, link and project components.
 - `docs/ASSETS.md`: photo sources and font licenses.
@@ -48,7 +51,7 @@ There are no fabricated customers, employees, statistics, or contact details. Pr
 
 ## Deploy
 
-The GitHub Pages workflow builds and publishes `dist/` to `https://vesuliria.com` on pushes to `main`. The AVT site is served from `public/avt/` in Turkish and English, and Sketchmindai is linked at `https://sketchmindai.com`.
+The GitHub Pages workflow builds and publishes `dist/` to `https://vesuliria.com` on pushes to `main`. Sketchmindai is a separate site at `https://sketchmindai.com` (repository `sketchmind-site`) built on the same visual skeleton.
 
 For manual deployment, run `npm run build` and publish `dist/`. Build using Node 22.22+ and use static hosting without a server adapter. GitHub Pages is supported at a custom domain or root user/organization site. A repository subpath requires a configured Astro `base` and corresponding asset/link prefixes before publishing.
 

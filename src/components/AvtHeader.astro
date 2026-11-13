@@ -1,0 +1,19 @@
+---
+import Brand from './Brand.astro';
+import { localize, ui, type Lang } from '../i18n';
+interface Props { lang?: Lang; alternate: string; links: [string, string][]; cta: [string, string]; }
+const { lang = 'en', alternate, links, cta } = Astro.props;
+const t = ui[lang];
+---
+<header id="top" class="site-header avt-header">
+  <div class="header-inner shell">
+    <Brand lang={lang} href={localize(lang, '/')} suffix="AVT" />
+    <nav class="desktop-nav" aria-label={t.mainNav}>
+      {links.map(([href, label]) => <a class="nav-link" href={href}>{label}</a>)}
+    </nav>
+    <div class="avt-header-actions">
+      <a class="lang-switch mono" href={alternate} hreflang={lang === 'en' ? 'tr' : 'en'} aria-label={t.switchLabel}>{t.switchShort}</a>
+      <a class="avt-button avt-button-small" href={cta[0]}>{cta[1]}</a>
+    </div>
+  </div>
+</header>

@@ -1,11 +1,14 @@
 ---
 import { projects } from '../data/projects';
+import { localize, type Lang } from '../i18n';
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
 ---
 <div class="systems-area-grid">
   {projects.map((project) => (
-    <a class="systems-area" href={`/work/${project.slug}/`}>
+    <a class="systems-area" href={localize(lang, `/work/${project.slug}/`)}>
       <h3>{project.name}</h3>
-      <p>{project.description}</p>
+      <p>{project.copy[lang].description}</p>
       <span aria-hidden="true">↗</span>
     </a>
   ))}

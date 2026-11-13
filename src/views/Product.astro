@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import Action from '../components/Action.astro';
+import EditorialImage from '../components/EditorialImage.astro';
+import { projects, type Project } from '../data/projects';
+import { localize, type Lang } from '../i18n';
+
+interface Props { project: Project; lang?: Lang; }
+const { project, lang = 'en' } = Astro.props;
+const copy = project.copy[lang];
+const index = projects.findIndex((item) => item.slug === project.slug);
+const next = projects.length > 1 ? projects[(index + 1) % projects.length] : undefined;
+const external = /^https?:/.test(copy.site.href);
+const t = {
+  en: { work: 'Work', breadcrumb: 'Breadcrumb', category: 'Category', status: 'Status', overview: 'Overview', highlights: 'Highlights', results: 'Results', demo: 'Demo', screens: 'Screens', nextStep: 'Next step', learnMore: `Learn more about ${project.name}.`, talk: 'Talk to us', nextProduct: 'Next product' },
+  tr: { work: 'İşler', breadcrumb: 'Konum', category: 'Kategori', status: 'Durum', overview: 'Genel bakış', highlights: 'Öne çıkanlar', results: 'Sonuçlar', demo: 'Demo', screens: 'Ekranlar', nextStep: 'Sonraki adım', learnMore: `${project.name} hakkında daha fazlası.`, talk: 'Bizimle konuşun', nextProduct: 'Sonraki ürün' },
+}[lang];
+---
+<Base title={`${project.name} — Vesuliria`} description={copy.description} lang={lang}>
+  <section class="product-intro shell">
+    <nav class="mono section-label product-crumbs" aria-label={t.breadcrumb}><a href={localize(lang, '/work')}>{t.work}</a><span aria-hidden="true">/</span><span>{project.name}</span></nav>
+    <div class="product-heading">
+      <h1>{project.name}</h1>
+      <div>
+        <p class="product-tagline">{copy.tagline}</p>
+        <dl class="product-meta mono">
+          <div><dt>{t.category}</dt><dd>{copy.category}</dd></div>
+          <div><dt>{t.status}</dt><dd>{copy.status}</dd></div>
+        </dl>
+      </div>
+    </div>
+    <figure class="product-cover">
+      <EditorialImage src={project.image} alt={copy.imageAlt} eager sizes="(max-width: 1440px) 100vw, 1300px" />
+    </figure>
+  </section>
+
+  <section class="product-overview shell">
+    <p class="mono section-label">{t.overview}</p>
+    <div class="product-overview-text">
+      {copy.intro.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <section class="product-highlights shell" aria-label={t.highlights}>
+    {copy.highlights.map((item) => (
+      <article>
+        <h2>{item.title}</h2>
+        <p>{item.text}</p>
+      </article>
+    ))}
+  </section>
+
+  {copy.facts && (
+    <section class="product-facts" aria-label={t.results}>
+      <div class="shell">
+        <p class="mono section-label">{t.results}</p>
+        <dl>
+          {copy.facts.map((fact) => <div><dt>{fact.value}</dt><dd>{fact.label}</dd></div>)}
+        </dl>
+        {copy.factsNote && <p class="product-facts-note">{copy.factsNote}</p>}
+      </div>
+    </section>
+  )}
+
+  {project.videos.length > 0 && (
+    <section class="product-videos shell" aria-label={t.demo}>
+      <p class="mono section-label">{t.demo}</p>
+      {project.videos.map((video) => (
+        <figure>
+          <div class="product-video">
+            {video.embed
+              ? <iframe src={video.embed} title={video.title[lang]} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>
+              : <video src={video.file} controls preload="metadata"></video>}
+          </div>
+          <figcaption class="mono">{video.title[lang]}</figcaption>
+        </figure>
+      ))}
+    </section>
+  )}
+
+  <section class="product-gallery shell" aria-label={t.screens}>
+    <p class="mono section-label">{t.screens}</p>
+    <div class="product-gallery-grid">
+      {project.gallery.map((figure) => (
+        <figure class:list={['product-figure', `product-figure-${figure.aspect || 'landscape'}`]}>
+          <div class="product-figure-image"><EditorialImage src={figure.image} alt={figure.alt[lang]} sizes="(max-width: 768px) 100vw, 50vw" /></div>
+          <figcaption class="mono">{figure.caption[lang]}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="identity-section product-cta">
+    <div class="shell identity-grid">
+      <p class="mono section-label">{t.nextStep}</p>
+      <div>
+        <h2>{t.learnMore}</h2>
+        <div class="product-cta-actions">
+          <a class="button" href={copy.site.href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>{copy.site.label}<span aria-hidden="true">↗</span></a>
+          <Action href={localize(lang, '/contact')} label={t.talk} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {next && (
+    <section class="product-next shell">
+      <a href={localize(lang, `/work/${next.slug}/`)}>
+        <span class="mono section-label">{t.nextProduct}</span>
+        <span class="product-next-name">{next.name}</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </section>
+  )}
+</Base>

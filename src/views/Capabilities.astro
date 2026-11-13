@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import EditorialImage from '../components/EditorialImage.astro';
+import flowDiagram from '../assets/workshop/flow-diagram.webp';
+import { capabilities } from '../data/site';
+import type { Lang } from '../i18n';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+const t = {
+  en: {
+    title: 'Capabilities — Vesuliria',
+    description: 'Applied machine learning, systems engineering, product development and experimental research at Vesuliria.',
+    heading: 'Capabilities',
+    intro: 'We use research to guide what we build, from software prototypes to the systems that run them.',
+    areas: 'Areas of work',
+    figureAlt: 'Parallel lines curve around a circular form in a schematic drawing',
+    figureCaption: 'Concept illustration',
+  },
+  tr: {
+    title: 'Yetenekler — Vesuliria',
+    description: 'Vesuliria’da uygulamalı makine öğrenmesi, sistem mühendisliği, ürün geliştirme ve deneysel araştırma.',
+    heading: 'Yetenekler',
+    intro: 'Yazılım prototiplerinden onları çalıştıran sistemlere kadar, ne inşa edeceğimize araştırmayla karar veririz.',
+    areas: 'Çalışma alanları',
+    figureAlt: 'Şematik bir çizimde dairesel bir biçimin etrafında kıvrılan paralel çizgiler',
+    figureCaption: 'Konsept illüstrasyon',
+  },
+}[lang];
+---
+<Base title={t.title} description={t.description} lang={lang}>
+  <section class="capabilities-intro shell">
+    <div class="capabilities-heading">
+      <h1>{t.heading}</h1>
+      <p>{t.intro}</p>
+    </div>
+  </section>
+
+  <section class="capabilities-body shell" aria-label={t.areas}>
+    <div class="capability-list">
+      {capabilities[lang].map((item) => (
+        <details class="capability" id={item.id}>
+          <summary>
+            <span class="capability-name">{item.name}</span>
+            <span class="capability-description">{item.description}</span>
+            <span class="capability-indicator" aria-hidden="true"></span>
+          </summary>
+          <div class="capability-detail">
+            <p>{item.detail}</p>
+            {item.id === 'experimental-research' && (
+              <figure class="research-figure">
+                <EditorialImage
+                  src={flowDiagram}
+                  alt={t.figureAlt}
+                  sizes="(max-width: 768px) 90vw, 720px"
+                />
+                <figcaption class="mono">{t.figureCaption}</figcaption>
+              </figure>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<script>
+  function openLinkedCapability() {
+    const id = window.location.hash.slice(1);
+    const capability = document.getElementById(id);
+    if (capability instanceof HTMLDetailsElement) capability.open = true;
+  }
+
+  openLinkedCapability();
+  window.addEventListener('hashchange', openLinkedCapability);
+</script>

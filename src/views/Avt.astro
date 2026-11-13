@@ -1,0 +1,362 @@
+---
+import Base from '../layouts/Base.astro';
+import AvtHeader from '../components/AvtHeader.astro';
+import Action from '../components/Action.astro';
+import EditorialImage from '../components/EditorialImage.astro';
+import report from '../assets/products/avt-report.jpg';
+import { site } from '../data/site';
+import { localize, type Lang } from '../i18n';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+const alternate = lang === 'tr' ? '/avt/en/' : '/avt/';
+const mail = `mailto:${site.email}?subject=${encodeURIComponent('Vesuliria AVT demo')}`;
+
+const t = {
+  tr: {
+    title: 'Vesuliria AVT — Kanıtlanabilir yapay zekâ analitiği',
+    description: 'Vesuliria AVT, kurum verisine sorulan analitik sorulara kaynağı gösterilen, imzalı ve yeniden hesaplanabilir cevaplar veren, kurum içinde çalışan analiz motorudur.',
+    ids: { why: 'fark', how: 'nasil', results: 'sonuclar', pilot: 'pilot', contact: 'iletisim' },
+    nav: ['Fark', 'Nasıl çalışır', 'Sonuçlar', 'Pilot'],
+    cta: 'Demo isteyin',
+    kicker: 'Vesuliria AVT · Analyze · Verify · Trace',
+    heading: 'Yapay zekâ analitiği, denetçiye gösterilebilir kanıtla.',
+    lead: 'Kurum verinize sade Türkçeyle soru sorun. Vesuliria AVT cevabı, her rakamın hangi sorgudan geldiğini, hangi istatistik testinden geçtiğini ve imzasını birlikte verir. Aylar sonra aynı sonuç yeniden hesaplanabilir. Sistem kurumunuzun içinde çalışır, veri dışarı çıkmaz.',
+    demo: '15 dakikalık demo isteyin',
+    pilotLink: 'Pilot programı',
+    figureAlt: 'Ana değişimi, güveni, veri kalitesini ve doğrulanmış bulguları gösteren AVT analiz raporu',
+    figureCaption: ['Analiz raporu', 'Sentetik demo verisi'],
+    proofLabel: 'Öne çıkan ölçümler',
+    proof: [
+      ['0', 'kaynaksız (uydurma) sayı; yapısal olarak engelli'],
+      ['1,00 / 0,40', 'gerçek nedeni bulma başarısı (F1): Vesuliria / klasik yöntem'],
+      ['2 / 100', 'sinyal yokken yanlış alarm (hedef ≤ 10)'],
+      ['Kurum içi', 'kendi sunucunuzda, kendi modelinizle; veri dışarı çıkmaz'],
+    ],
+    problemLabel: 'Sorun',
+    problemHeading: '“Verinle konuş” araçları hızlı. Ama savunulamaz.',
+    problemText: 'Yaygın yapay zekâ analiz araçlarında model rakamı metne kendisi yazar, metriği her seferinde yeniden tanımlar ve en büyük farkı “neden” sanar. Cevap doğru görünür ama denetçi “bu sayı nereden geldi?” diye sorduğunda gösterilecek bir şey yoktur.',
+    typical: 'Tipik yapay zekâ + SQL aracı',
+    typicalItems: [
+      'Model rakamı kendisi yazar; uydurma sayı mümkündür',
+      '“Takipteki kredi oranı”nı her seferinde yeniden tanımlar',
+      'Gürültüyü bulgu, ilişkiyi neden diye sunar',
+      'Aynı soru farklı günlerde farklı cevap verir',
+      'Veri değişince eski cevap doğrulanamaz',
+    ],
+    ours: [
+      'Model rakam yazamaz; her sayı kayıtlı bir sorgudan gelir',
+      'Metrik tanımı kurumun onayladığı tanımdır',
+      'Her iddia istatistik testinden geçer; yetersizse “sonuçsuz” der',
+      'Aynı soru, aynı veri: birebir aynı sayılar',
+      'Rapor imzalıdır; aylar sonra yeniden hesaplanabilir',
+    ],
+    howLabel: 'Nasıl çalışır',
+    howHeading: 'Yapay zekâ düşünür, deterministik kod hesaplar.',
+    howText: 'Model soruyu anlar, hipotez kurar ve metni yazar. Sayıları ise test edilmiş, denetlenen kod üretir. Bu ayrım, sistemin her rakamını izlenebilir kılar.',
+    steps: [
+      ['Soruyu anlar', 'Hangi metriğin, hangi dönemin sorulduğunu çözer. Belirsizse tahmin etmez, size sorar.'],
+      ['Veriyi denetler', 'Eksik dönem, bozuk kayıt ve kayma varsa analizi durdurur ya da güveni düşürür.'],
+      ['Test eder', 'Hipotezleri önceden kaydeder; fark-içinde-fark, güç analizi ve çoklu test düzeltmesiyle sahte bulguları eler.'],
+      ['Kanıtla yazar', 'Her sayı kaynağına bağlı; rapor imzalanır, denetim günlüğüne yazılır.'],
+    ],
+    auditLabel: 'Denetlenebilirlik',
+    auditHeading: 'Aylar sonra da “bu sayı nereden geldi?” sorusunun cevabı hazır.',
+    audit: [
+      ['İmza', 'İmzalı rapor', 'Her rapor dijital olarak imzalanır ve mühürlenir. Tek karakter değişirse doğrulama bunu gösterir.'],
+      ['Yeniden hesap', 'Aynı veri, aynı kod', 'Raporun çalıştığı verinin kopyası ve hesap kodu saklanabilir; “İstatistikleri tekrar hesapla” sonucu yeniden üretir.'],
+      ['İz', 'Kanıt zinciri', 'Bulgudan teste, sorguya ve SQL’e kadar tek tıkla izlenir. Elenen hipotezler de gerekçesiyle kayıtlıdır.'],
+    ],
+    enterpriseLabel: 'Kurumsal',
+    enterpriseHeading: 'Kurumunuzun içinde, kurallarınızla çalışır.',
+    enterprise: [
+      ['Veri dışarı çıkmaz', 'Yapay zekâ modeli kendi sunucunuzda çalışabilir. Dış ağa çağrı ayarla tamamen kapatılabilir.'],
+      ['Kurumsal kimlik', 'SSO (OIDC) ile giriş, SCIM ile Entra ID / Okta’dan otomatik kullanıcı ve grup yönetimi.'],
+      ['Rol bazlı erişim ve paylaşım', 'Analist, denetçi, yönetici rolleri. Tek bir bulgu, tam raporu ve sorguları göstermeden kişiye açılabilir.'],
+      ['Değiştirilemez denetim izi', 'Her görüntüleme, paylaşım ve silme işlemi zincirleme özetli günlüğe yazılır. AB Yapay Zekâ Yasası eşlemesi hazır.'],
+    ],
+    resultsLabel: 'Ölçülmüş sonuçlar',
+    resultsHeading: 'İddia değil, ölçüm.',
+    resultsText: 'Gerçek nedenleri bilinen sentetik kredi portföyünde ve açık gerçek veri kümelerinde ölçüldü.',
+    resultsHead: ['Ölçüm', 'Sonuç'],
+    results: [
+      ['Gerçek nedenleri bulma (F1); klasik “en büyük fark” yöntemi 0,40', '1,00'],
+      ['Uydurma (kaynaksız) sayı', '0'],
+      ['Doğru davranış: cevapla / netleştir / reddet (111 soru)', '111 / 111'],
+      ['Sinyal yokken yanlış alarm (100 deneme)', '2 / 100'],
+      ['Kurum içi küçük modelle (7B) çekirdek soru seti', '27 / 27'],
+      ['Gerçek kredi kartı verisinde (UCI) “neden yok” durumu', 'Doğru tespit'],
+    ],
+    resultsNote: 'Ölçümler sentetik ve açık veri kümelerindedir; kurum verisinde doğrulama pilot programın konusudur.',
+    whoLabel: 'Kimler için',
+    whoHeading: 'Rakamını savunmak zorunda olan ekipler için.',
+    who: [
+      ['Risk ve kredi analitiği', '“Takipteki krediler neden arttı, hangi segment sürükledi?” sorularına test edilmiş cevap.'],
+      ['İç denetim ve iç kontrol', 'Her rakamın kaynağı, testi ve imzası; sonradan bağımsız yeniden hesap.'],
+      ['Raporlama ve yönetim', 'Düzenleyiciye ve yönetim kuruluna gidecek analizde “yapay zekâ uydurdu” riskini sıfırlar.'],
+    ],
+    whoNote: 'Bankalar, katılım bankaları, finansman, faktoring ve leasing şirketleri, sigorta ve düzenlemeye tabi fintekler.',
+    pilotLabel: 'Pilot programı',
+    pilotHeading: 'İlk tasarım ortaklarımızı arıyoruz.',
+    pilotText: 'Ürün çalışıyor ve ölçüldü; şimdi gerçek kurum verisinde değer üretmesini birlikte doğrulamak istiyoruz. Pilot, kurumunuzun içinde ve sizin kontrolünüzde yürür.',
+    pilotTitle: '6–8 haftalık pilot',
+    pilotItems: [
+      'Bir veri kümesi, 5–10 gerçek iş sorusu',
+      'Kurum içi kurulum; veri dışarı çıkmaz',
+      'Metrik tanımları ekibinizle birlikte',
+      'Sonunda ölçülmüş bir değerlendirme raporu',
+      'İlk ortaklara özel koşullar',
+    ],
+    contactLabel: 'İletişim',
+    contactHeading: '15 dakikada gösterelim.',
+    contactText: 'Kendi örnek sorunuzla canlı demo yapalım; pilot için uygun olup olmadığını birlikte değerlendirelim.',
+    productPage: 'Ürün sayfası: ekranlar ve demo',
+  },
+  en: {
+    title: 'Vesuliria AVT — Provable AI analytics',
+    description: 'Vesuliria AVT is an on-premise analysis engine that answers analytical questions about institutional data with sourced, signed and recomputable answers.',
+    ids: { why: 'why', how: 'how', results: 'results', pilot: 'pilot', contact: 'contact' },
+    nav: ['Why', 'How it works', 'Results', 'Pilot'],
+    cta: 'Request a demo',
+    kicker: 'Vesuliria AVT · Analyze · Verify · Trace',
+    heading: 'AI analytics with evidence you can show an auditor.',
+    lead: 'Ask questions of your institution’s data in plain language. Vesuliria AVT returns the answer together with where every number came from, which statistical test it passed, and a signature. Months later, the same result can be recomputed. It runs inside your environment; data never leaves.',
+    demo: 'Request a 15-minute demo',
+    pilotLink: 'Pilot programme',
+    figureAlt: 'AVT analysis report showing the headline change, confidence, data quality and verified findings',
+    figureCaption: ['Analysis report (Turkish interface)', 'Synthetic demo data'],
+    proofLabel: 'Key measurements',
+    proof: [
+      ['0', 'unsourced (invented) numbers; structurally blocked'],
+      ['1.00 / 0.40', 'true-driver detection (F1): Vesuliria / naive method'],
+      ['2 / 100', 'false alarms when there is no signal (target ≤ 10)'],
+      ['On-premise', 'your servers, your model; data stays inside'],
+    ],
+    problemLabel: 'The problem',
+    problemHeading: '“Chat with your data” tools are fast. But indefensible.',
+    problemText: 'In typical AI analytics tools the model writes numbers into the text itself, redefines metrics every time and mistakes the largest difference for a cause. The answer looks right, but when an auditor asks “where did this number come from?” there is nothing to show.',
+    typical: 'Typical AI + SQL tool',
+    typicalItems: [
+      'The model writes numbers itself; invented figures are possible',
+      'Redefines “non-performing loan ratio” on every question',
+      'Presents noise as findings and correlation as cause',
+      'The same question gives different answers on different days',
+      'Once data changes, old answers cannot be verified',
+    ],
+    ours: [
+      'The model cannot write digits; every number comes from a recorded query',
+      'Metric definitions are the ones your institution approved',
+      'Every claim passes a statistical test; otherwise it says “inconclusive”',
+      'Same question, same data: identical numbers',
+      'Reports are signed and can be recomputed months later',
+    ],
+    howLabel: 'How it works',
+    howHeading: 'The AI reasons. Deterministic code computes.',
+    howText: 'The model understands the question, forms hypotheses and writes the text. Numbers are produced by tested, audited code. This separation makes every figure traceable.',
+    steps: [
+      ['Understands', 'Resolves which metric and period you mean. If ambiguous, it asks instead of guessing.'],
+      ['Checks the data', 'Missing periods, broken records or drift stop the analysis or lower its confidence.'],
+      ['Tests', 'Pre-registers hypotheses; difference-in-differences, power analysis and multiple-testing correction eliminate false findings.'],
+      ['Writes with evidence', 'Every number is linked to its source; the report is signed and logged.'],
+    ],
+    auditLabel: 'Auditability',
+    auditHeading: 'Months later, “where did this number come from?” still has an answer.',
+    audit: [
+      ['Signature', 'Signed reports', 'Every report is digitally signed and sealed. A single changed character fails verification.'],
+      ['Recompute', 'Same data, same code', 'A copy of the source data and the calculation code can be archived; “Recompute statistics” reproduces the result.'],
+      ['Trace', 'Evidence chain', 'From finding to test, query and SQL in one click. Rejected hypotheses stay on record with their reasons.'],
+    ],
+    enterpriseLabel: 'Enterprise',
+    enterpriseHeading: 'Runs inside your institution, under your rules.',
+    enterprise: [
+      ['Data never leaves', 'The AI model can run on your own servers. Outbound calls can be disabled entirely by configuration.'],
+      ['Enterprise identity', 'SSO (OIDC) sign-in and SCIM provisioning of users and groups from Entra ID / Okta.'],
+      ['Role-based access and sharing', 'Analyst, auditor and admin roles. A single finding can be shared without exposing the full report or queries.'],
+      ['Tamper-evident audit trail', 'Every view, share and deletion is written to a hash-chained log. EU AI Act mapping included.'],
+    ],
+    resultsLabel: 'Measured results',
+    resultsHeading: 'Measurements, not claims.',
+    resultsText: 'Measured on a synthetic credit portfolio with known true drivers and on public real-world datasets.',
+    resultsHead: ['Measure', 'Result'],
+    results: [
+      ['True-driver detection (F1); naive “largest difference” method: 0.40', '1.00'],
+      ['Invented (unsourced) numbers', '0'],
+      ['Correct behaviour: answer / clarify / refuse (111 questions)', '111 / 111'],
+      ['False alarms with no signal (100 trials)', '2 / 100'],
+      ['Core question set with a small on-premise model (7B)', '27 / 27'],
+      ['“No driver” case on real credit-card data (UCI)', 'Correctly identified'],
+    ],
+    resultsNote: 'Measurements are on synthetic and public datasets; validation on institutional data is the purpose of the pilot programme.',
+    whoLabel: 'Who it is for',
+    whoHeading: 'For teams that must defend their numbers.',
+    who: [
+      ['Risk and credit analytics', 'Tested answers to “why did non-performing loans rise, and which segment drove it?”'],
+      ['Internal audit and control', 'Source, test and signature for every figure; independent recomputation later.'],
+      ['Reporting and management', 'Removes the “the AI made it up” risk from analyses going to regulators and the board.'],
+    ],
+    whoNote: 'Banks, participation banks, finance, factoring and leasing companies, insurers and regulated fintechs.',
+    pilotLabel: 'Pilot programme',
+    pilotHeading: 'We are looking for our first design partners.',
+    pilotText: 'The product works and has been measured; now we want to validate its value on real institutional data together. The pilot runs inside your institution, under your control.',
+    pilotTitle: '6–8 week pilot',
+    pilotItems: [
+      'One dataset, 5–10 real business questions',
+      'On-premise installation; data stays inside',
+      'Metric definitions agreed with your team',
+      'A measured evaluation report at the end',
+      'Special terms for early partners',
+    ],
+    contactLabel: 'Contact',
+    contactHeading: 'Let us show you in 15 minutes.',
+    contactText: 'A live demo with your own example question, and an honest assessment of whether a pilot makes sense.',
+    productPage: 'Product page: screens and demo',
+  },
+}[lang];
+const id = t.ids;
+const navLinks: [string, string][] = [[`#${id.why}`, t.nav[0]], [`#${id.how}`, t.nav[1]], [`#${id.results}`, t.nav[2]], [`#${id.pilot}`, t.nav[3]]];
+---
+<Base title={t.title} description={t.description} lang={lang} alternate={alternate}>
+  <AvtHeader slot="header" lang={lang} alternate={alternate} links={navLinks} cta={[`#${id.contact}`, t.cta]} />
+
+  <section class="avt-hero shell">
+    <div class="avt-hero-copy">
+      <p class="brand-kicker avt-kicker">{t.kicker}</p>
+      <h1>{t.heading}</h1>
+      <p class="brand-intro">{t.lead}</p>
+      <div class="brand-actions">
+        <a class="avt-button" href={`#${id.contact}`}>{t.demo} <span aria-hidden="true">→</span></a>
+        <Action href={`#${id.pilot}`} label={t.pilotLink} arrow="↓" />
+      </div>
+    </div>
+    <figure class="brand-plate avt-plate">
+      <EditorialImage src={report} alt={t.figureAlt} eager sizes="(max-width: 840px) 100vw, 55vw" />
+      <figcaption class="mono">{t.figureCaption[0]} <span>{t.figureCaption[1]}</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="avt-proof shell" aria-label={t.proofLabel}>
+    <dl>
+      {t.proof.map(([value, label]) => <div><dt>{value}</dt><dd>{label}</dd></div>)}
+    </dl>
+  </section>
+
+  <section class="avt-section shell" id={id.why}>
+    <div class="avt-section-head">
+      <p class="mono section-label">{t.problemLabel}</p>
+      <div>
+        <h2>{t.problemHeading}</h2>
+        <p>{t.problemText}</p>
+      </div>
+    </div>
+    <div class="avt-compare">
+      <div>
+        <h3>{t.typical}</h3>
+        <ul>{t.typicalItems.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div class="is-avt">
+        <h3>Vesuliria AVT</h3>
+        <ul>{t.ours.map((item) => <li>{item}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="systems-method avt-how" id={id.how}>
+    <div class="shell systems-method-grid">
+      <div>
+        <p class="mono section-label">{t.howLabel}</p>
+        <h2>{t.howHeading}</h2>
+        <p class="avt-how-text">{t.howText}</p>
+      </div>
+      <ol class="systems-steps">
+        {t.steps.map(([title, text]) => <li><h3>{title}</h3><p>{text}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="avt-section shell">
+    <div class="avt-section-head">
+      <p class="mono section-label">{t.auditLabel}</p>
+      <h2>{t.auditHeading}</h2>
+    </div>
+    <div class="company-principles avt-columns">
+      {t.audit.map(([label, title, text]) => (
+        <article>
+          <p class="mono avt-tag">{label}</p>
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="systems-areas paper avt-enterprise">
+    <div class="shell">
+      <div class="avt-section-head">
+        <p class="mono section-label">{t.enterpriseLabel}</p>
+        <h2>{t.enterpriseHeading}</h2>
+      </div>
+      <div class="systems-area-grid">
+        {t.enterprise.map(([title, text]) => (
+          <div class="systems-area"><h3>{title}</h3><p>{text}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="avt-section shell" id={id.results}>
+    <div class="avt-section-head">
+      <p class="mono section-label">{t.resultsLabel}</p>
+      <div>
+        <h2>{t.resultsHeading}</h2>
+        <p>{t.resultsText}</p>
+      </div>
+    </div>
+    <table class="avt-results">
+      <thead><tr><th class="mono">{t.resultsHead[0]}</th><th class="mono">{t.resultsHead[1]}</th></tr></thead>
+      <tbody>{t.results.map(([measure, value]) => <tr><td>{measure}</td><td>{value}</td></tr>)}</tbody>
+    </table>
+    <p class="avt-note">{t.resultsNote}</p>
+  </section>
+
+  <section class="avt-section shell avt-who">
+    <div class="avt-section-head">
+      <p class="mono section-label">{t.whoLabel}</p>
+      <h2>{t.whoHeading}</h2>
+    </div>
+    <div class="company-principles avt-columns">
+      {t.who.map(([title, text]) => <article><h3>{title}</h3><p>{text}</p></article>)}
+    </div>
+    <p class="avt-note">{t.whoNote}</p>
+  </section>
+
+  <section class="identity-section avt-pilot" id={id.pilot}>
+    <div class="shell identity-grid">
+      <p class="mono section-label">{t.pilotLabel}</p>
+      <div class="avt-pilot-grid">
+        <div>
+          <h2>{t.pilotHeading}</h2>
+          <p>{t.pilotText}</p>
+        </div>
+        <div class="avt-pilot-box">
+          <p class="mono">{t.pilotTitle}</p>
+          <ul>{t.pilotItems.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-page shell avt-contact" id={id.contact}>
+    <div>
+      <p class="mono section-label">{t.contactLabel}</p>
+      <h2>{t.contactHeading}</h2>
+    </div>
+    <div class="contact-info">
+      <p>{t.contactText}</p>
+      <a class="contact-email text-link" href={mail}>{site.email}<span aria-hidden="true">↗</span></a>
+      <div class="avt-contact-links">
+        <Action href={site.linkedin} label="LinkedIn" />
+        <Action href={localize(lang, '/work/avt/')} label={t.productPage} />
+      </div>
+    </div>
+  </section>
+</Base>

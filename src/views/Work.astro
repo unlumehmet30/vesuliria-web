@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Project from '../components/Project.astro';
+import { projects } from '../data/projects';
+import type { Lang } from '../i18n';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+const t = {
+  en: { title: 'Work — Vesuliria', description: 'Products and projects from Vesuliria.', heading: 'Work', products: 'Products' },
+  tr: { title: 'İşler — Vesuliria', description: 'Vesuliria’nın ürünleri ve projeleri.', heading: 'İşler', products: 'Ürünler' },
+}[lang];
+---
+<Base dark title={t.title} description={t.description} lang={lang}>
+  <section class="work-intro shell">
+    <div class="work-heading">
+      <h1>{t.heading}</h1>
+    </div>
+  </section>
+
+  <section class="project-grid shell" aria-label={t.products}>
+    {projects.map((project) => <Project project={project} lang={lang} />)}
+  </section>
+</Base>

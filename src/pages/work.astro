@@ -1,16 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
-import Project from '../components/Project.astro';
-import { projects } from '../data/projects';
+import Work from '../views/Work.astro';
 ---
-<Base dark title="Work — Vesuliria" description="Products and projects from Vesuliria.">
-  <section class="work-intro shell">
-    <div class="work-heading">
-      <h1>Work</h1>
-    </div>
-  </section>
-
-  <section class="project-grid shell" aria-label="Products">
-    {projects.map((project) => <Project project={project} />)}
-  </section>
-</Base>
+<Work lang="en" />

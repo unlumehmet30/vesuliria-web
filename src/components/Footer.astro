@@ -1,20 +1,24 @@
 ---
 import Brand from './Brand.astro';
 import { navigation, site } from '../data/site';
+import { localize, ui, type Lang } from '../i18n';
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+const t = ui[lang];
 ---
 <footer class="site-footer">
   <div class="shell">
     <div class="footer-main">
-      <Brand />
-      <nav aria-label="Footer navigation">
-        {navigation.map((item) => <a class="nav-link" href={item.href}>{item.label}</a>)}
-        <a class="nav-link" href="/contact">Contact</a>
+      <Brand lang={lang} />
+      <nav aria-label={t.footerNav}>
+        {navigation(lang).map((item) => <a class="nav-link" href={item.href}>{item.label}</a>)}
+        <a class="nav-link" href={localize(lang, '/contact')}>{t.contact}</a>
       </nav>
       {site.email && <a class="text-link" href={`mailto:${site.email}`}>{site.email}</a>}
     </div>
     <div class="footer-bottom mono">
       <span>© {new Date().getFullYear()} Vesuliria</span>
-      <a href="#top">Back to top ↑</a>
+      <a href="#top">{t.backToTop}</a>
     </div>
   </div>
 </footer>

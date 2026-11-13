@@ -1,26 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
-import Action from '../components/Action.astro';
-import { site } from '../data/site';
+import Contact from '../views/Contact.astro';
 ---
-<Base title="Contact — Vesuliria" description="Contact information for Vesuliria.">
-  <section class="contact-page shell">
-    <h1>Contact</h1>
-    <div class="contact-info">
-      {site.email ? (
-        <>
-          <p>For an AVT demo or pilot, tell us about your institution and the data you’d like to analyse.</p>
-          <a class="contact-email text-link" href={`mailto:${site.email}`}>
-            {site.email}<span aria-hidden="true">↗</span>
-          </a>
-          <div><Action href={site.linkedin} label="LinkedIn" /></div>
-        </>
-      ) : (
-        <>
-          <p>We’ll list a public email address here when it’s available.</p>
-          <Action href="/company" label="About Vesuliria" />
-        </>
-      )}
-    </div>
-  </section>
-</Base>
+<Contact lang="en" />
