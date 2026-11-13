@@ -1,0 +1,11 @@
+---
+import EditorialImage from './EditorialImage.astro';
+import type { Project } from '../data/projects';
+interface Props { project: Project; }
+const { project } = Astro.props;
+const Tag = project.href ? 'a' : 'article';
+---
+<Tag class:list={['project',`project-${project.aspect || 'landscape'}`]} href={project.href}>
+<div class="project-image"><EditorialImage src={project.image} alt={project.imageAlt} sizes="(max-width: 768px) 100vw, 50vw"/></div>
+<div class="project-heading"><h2>{project.name}</h2>{project.href && <span aria-hidden="true">↗</span>}</div><p>{project.description}</p><div class="project-meta mono"><span>{project.category}</span><span>{project.status}{project.year && ` / ${project.year}`}</span></div>
+</Tag>

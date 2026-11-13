@@ -1,47 +1,73 @@
 ---
 import Base from '../layouts/Base.astro';
-import FlowField from '../components/FlowField.astro';
+import Action from '../components/Action.astro';
+import ProductList from '../components/ProductList.astro';
+import EditorialImage from '../components/EditorialImage.astro';
+import atlas from '../assets/workshop/research-atlas.webp';
+import { capabilities } from '../data/site';
 ---
-<Base title="Vesuliria — Ideas, Research & Technology">
-<section class="hero">
-  <div class="hero-grid" aria-hidden="true"></div><div class="hero-orbit" aria-hidden="true"><span>VESULIRIA / FIELD 001</span><span>CONTINUOUS EXPLORATION</span></div>
-  <FlowField id="home-hero" />
-  <div class="container hero-inner">
-    <div class="hero-content">
-      <div class="eyebrow">Research / Software / Engineering</div>
-      <h1>Ideas, research<br/>and technology —<br/><em>with a purpose.</em></h1>
-      <p>We explore new possibilities, build practical solutions, and develop technology that creates real value.</p>
-      <a class="hero-action" href="/work"><span class="circle-arrow" aria-hidden="true">↗</span><span>Explore our work</span></a>
+<Base title="Vesuliria — Software engineering and applied research">
+  <section class="brand-hero shell">
+    <div class="brand-hero-copy">
+      <p class="brand-kicker">Independent technology company</p>
+      <h1>Research.<br />Engineering.<br />Products<span>.</span></h1>
+      <p class="brand-intro">We test ideas through applied research and build the software and products that follow.</p>
+      <div class="brand-actions">
+        <a class="brand-button" href="#areas">Explore our capabilities <span aria-hidden="true">↓</span></a>
+        <Action href="/company" label="About Vesuliria" />
+      </div>
     </div>
-  </div>
-  <div class="hero-bottom"><div class="container"><span>01 / 04 <i class="progress-rule" aria-hidden="true"></i></span><span>Independent by design</span><span>Scroll to discover ↓</span></div></div>
-</section>
-<section class="section container editorial-intro">
-  <div class="intro-grid"><div><div class="eyebrow">01 / The company</div><h2 class="section-title">Independent<br/>by nature.</h2></div><div class="intro-copy"><p>Vesuliria is an independent technology company exploring the intersection of artificial intelligence, software, and engineering.</p><p class="muted">We’re interested in ideas that can be questioned, tested, and turned into something genuinely useful — not technology for its own sake.</p><a href="/about" class="arrow-link">Get to know Vesuliria <span>↗</span></a></div></div>
-  <div class="pillars"><div class="pillar"><span class="number">01</span><strong>Intelligent Systems</strong></div><div class="pillar"><span class="number">02</span><strong>Software</strong></div><div class="pillar"><span class="number">03</span><strong>Applied Research</strong></div><div class="pillar"><span class="number">04</span><strong>Engineering</strong></div></div>
-</section>
-<section class="section capabilities-section"><div class="container">
-  <div class="section-topline"><span class="eyebrow">02 / Capabilities</span><span class="eyebrow">Ideas meet implementation</span></div>
-  <h2 class="section-title">Thinking deeply.<br/>Building deliberately.</h2>
-  <div class="capability-rows">
-    <a href="/work" class="capability-row"><span class="cap-number">01</span><h3>Artificial intelligence</h3><p>Applied intelligence, model engineering and systems designed around real needs.</p><span class="cap-arrow" aria-hidden="true">↗</span></a>
-    <a href="/work" class="capability-row"><span class="cap-number">02</span><h3>Software & products</h3><p>Interfaces and infrastructure shaped by clarity, performance and thoughtful craft.</p><span class="cap-arrow" aria-hidden="true">↗</span></a>
-    <a href="/research" class="capability-row"><span class="cap-number">03</span><h3>Research & exploration</h3><p>Questions, prototypes and experiments that help promising ideas earn their place.</p><span class="cap-arrow" aria-hidden="true">↗</span></a>
-  </div>
-</div></section>
-<section class="section visual-studies-section"><div class="container">
-  <div class="section-topline"><span class="eyebrow">03 / Fields of exploration</span><span class="eyebrow">Visual studies / Not case studies</span></div>
-  <div class="visual-studies-heading"><h2 class="section-title">Ideas take shape<br/>through exploration.</h2><p class="lead muted">Intelligent systems, software architecture and applied research each call for a different way of thinking. These visual studies represent the disciplines we explore.</p></div>
-  <div class="study-grid">
-    <a class="study-card" href="/work"><div class="study-image"><img src="/visuals/study-network.svg" width="720" height="380" alt="Illustrative network graph of connected nodes" loading="lazy" /></div><div class="study-details"><span class="study-index">01 / INTELLIGENT SYSTEMS</span><h3>Connections, patterns, possibilities.</h3><span class="study-arrow" aria-hidden="true">↗</span></div></a>
-    <a class="study-card" href="/work"><div class="study-image"><img src="/visuals/study-signal.svg" width="720" height="380" alt="Illustrative computational signal field" loading="lazy" /></div><div class="study-details"><span class="study-index">02 / SOFTWARE & ENGINEERING</span><h3>Designed as a system.</h3><span class="study-arrow" aria-hidden="true">↗</span></div></a>
-    <a class="study-card" href="/research"><div class="study-image"><img src="/visuals/study-geometry.svg" width="720" height="380" alt="Illustrative parametric geometry study" loading="lazy" /></div><div class="study-details"><span class="study-index">03 / APPLIED RESEARCH</span><h3>Make the unknown testable.</h3><span class="study-arrow" aria-hidden="true">↗</span></div></a>
-  </div>
-</div></section>
-<section class="split-editorial">
-  <div class="visual abstract-panel"><FlowField id="home-panel" /><div class="visual-label"><span>EXPLORATION / SYSTEMS</span><span>V.001</span></div></div>
-  <div class="text-side"><div class="eyebrow">04 / Our approach</div><h2 class="statement">Rigorous thinking.<br/>Room to imagine.</h2><p class="lead muted">We value the freedom to explore and the discipline to measure. Every good idea deserves both.</p><a class="arrow-link" href="/approach">Our principles <span>↗</span></a></div>
-</section>
-<section class="section container explorations"><div class="eyebrow">05 / Looking ahead</div><div class="intro-grid"><h2 class="section-title">Progress begins<br/>with curiosity.</h2><div><p class="lead">We’re building a place for experiments, technical perspectives and products worth sharing. We’ll publish work here when it’s ready.</p><a href="/research" class="arrow-link">Explore our research <span>↗</span></a></div></div></section>
-<section class="callout"><div class="container"><div class="eyebrow">A conversation is a good beginning</div><h2 class="section-title">Have an idea<br/>worth exploring?</h2><a href="/contact" class="arrow-link">Contact Vesuliria <span>↗</span></a></div></section>
+
+    <figure class="brand-plate">
+      <EditorialImage
+        src={atlas}
+        alt="Layered contour lines, grids and rust-colored geometric forms on paper"
+        eager
+        sizes="(max-width: 840px) 100vw, 58vw"
+      />
+      <figcaption class="mono">Research Atlas <span>Concept illustration</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="systems-areas paper" id="products">
+    <div class="shell">
+      <div class="systems-section-heading">
+        <h2>Products</h2>
+        <Action href="/work" label="View our work" />
+      </div>
+      <ProductList />
+    </div>
+  </section>
+
+  <section class="systems-areas paper" id="areas">
+    <div class="shell">
+      <div class="systems-section-heading">
+        <h2>Areas of work</h2>
+        <Action href="/capabilities" label="View capabilities" />
+      </div>
+      <div class="systems-area-grid">
+        {capabilities.map((capability) => (
+          <a class="systems-area" href={`/capabilities#${capability.id}`}>
+            <h3>{capability.name}</h3>
+            <p>{capability.description}</p>
+            <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="systems-method">
+    <div class="shell systems-method-grid">
+      <div>
+        <h2>How we work</h2>
+        <Action href="/company" label="Our approach" />
+      </div>
+      <ol class="systems-steps">
+        <li><h3>Define the problem</h3><p>Identify what needs to change and how we’ll tell if it has improved.</p></li>
+        <li><h3>Test an approach</h3><p>Build a small prototype and measure the result against a baseline.</p></li>
+        <li><h3>Build for daily use</h3><p>Make the software easy to operate, diagnose and maintain.</p></li>
+      </ol>
+    </div>
+  </section>
 </Base>

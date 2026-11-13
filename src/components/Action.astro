@@ -1,0 +1,4 @@
+---
+const { href, primary = false, label, arrow = '↗' } = Astro.props;
+---
+<a class:list={[primary?'button':'text-link']} href={href}>{label}<span aria-hidden="true">{arrow}</span></a>

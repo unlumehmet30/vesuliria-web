@@ -1,0 +1,12 @@
+---
+import { products } from '../data/products';
+---
+<div class="systems-area-grid">
+  {products.map((product) => (
+    <a class="systems-area" href={product.href}>
+      <h3>{product.name}</h3>
+      <p>{product.description}</p>
+      <span aria-hidden="true">↗</span>
+    </a>
+  ))}
+</div>

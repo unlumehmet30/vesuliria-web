@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import EditorialImage from '../components/EditorialImage.astro';
+import flowDiagram from '../assets/workshop/flow-diagram.webp';
+import { capabilities } from '../data/site';
+---
+<Base title="Capabilities — Vesuliria" description="Applied machine learning, systems engineering, product development and experimental research at Vesuliria.">
+  <section class="capabilities-intro shell">
+    <div class="capabilities-heading">
+      <h1>Capabilities</h1>
+      <p>We use research to guide what we build, from software prototypes to the systems that run them.</p>
+    </div>
+  </section>
+
+  <section class="capabilities-body shell" aria-label="Areas of work">
+    <div class="capability-list">
+      {capabilities.map((item) => (
+        <details class="capability" id={item.id}>
+          <summary>
+            <span class="capability-name">{item.name}</span>
+            <span class="capability-description">{item.description}</span>
+            <span class="capability-indicator" aria-hidden="true"></span>
+          </summary>
+          <div class="capability-detail">
+            <p>{item.detail}</p>
+            {item.id === 'experimental-research' && (
+              <figure class="research-figure">
+                <EditorialImage
+                  src={flowDiagram}
+                  alt="Parallel lines curve around a circular form in a schematic drawing"
+                  sizes="(max-width: 768px) 90vw, 720px"
+                />
+                <figcaption class="mono">Concept illustration</figcaption>
+              </figure>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<script>
+  function openLinkedCapability() {
+    const id = window.location.hash.slice(1);
+    const capability = document.getElementById(id);
+    if (capability instanceof HTMLDetailsElement) capability.open = true;
+  }
+
+  openLinkedCapability();
+  window.addEventListener('hashchange', openLinkedCapability);
+</script>
