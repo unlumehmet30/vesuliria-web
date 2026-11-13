@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Action from '../components/Action.astro';
 import EditorialImage from '../components/EditorialImage.astro';
+import Device from '../components/Device.astro';
 import { projects, type Project } from '../data/projects';
 import { localize, type Lang } from '../i18n';
 
@@ -17,21 +18,22 @@ const t = {
 }[lang];
 ---
 <Base title={`${project.name} — Vesuliria`} description={copy.description} lang={lang}>
-  <section class="product-intro shell">
-    <nav class="mono section-label product-crumbs" aria-label={t.breadcrumb}><a href={localize(lang, '/work')}>{t.work}</a><span aria-hidden="true">/</span><span>{project.name}</span></nav>
-    <div class="product-heading">
-      <h1>{project.name}</h1>
-      <div>
+  <section class:list={['product-stage', `tile-${project.theme.ink}`, `stage-${project.showcase.device}`]} style={`--stage:${project.theme.stage};--accent:${project.theme.accent}`}>
+    <div class="shell product-stage-grid">
+      <div class="product-stage-copy">
+        <nav class="mono product-crumbs" aria-label={t.breadcrumb}><a href={localize(lang, '/work')}>{t.work}</a><span aria-hidden="true">/</span><span>{project.name}</span></nav>
+        <p class="tile-tags mono"><span>{copy.category}</span><span>{copy.status}</span></p>
+        <h1>{project.name}</h1>
         <p class="product-tagline">{copy.tagline}</p>
-        <dl class="product-meta mono">
-          <div><dt>{t.category}</dt><dd>{copy.category}</dd></div>
-          <div><dt>{t.status}</dt><dd>{copy.status}</dd></div>
-        </dl>
+        <div class="product-stage-actions">
+          <a class="stage-button" href={copy.site.href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>{copy.site.label}<span aria-hidden="true">↗</span></a>
+          <a class="stage-link" href={localize(lang, '/contact')}>{t.talk} <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="product-stage-visual">
+        <Device image={project.showcase.image} device={project.showcase.device} alt={copy.imageAlt} eager sizes="(max-width: 840px) 90vw, 55vw" />
       </div>
     </div>
-    <figure class="product-cover">
-      <EditorialImage src={project.image} alt={copy.imageAlt} eager sizes="(max-width: 1440px) 100vw, 1300px" />
-    </figure>
   </section>
 
   <section class="product-overview shell">
@@ -41,9 +43,10 @@ const t = {
     </div>
   </section>
 
-  <section class="product-highlights shell" aria-label={t.highlights}>
-    {copy.highlights.map((item) => (
+  <section class="product-highlights shell" aria-label={t.highlights} style={`--accent:${project.theme.accent}`}>
+    {copy.highlights.map((item, i) => (
       <article>
+        <p class="mono highlight-index">{String(i + 1).padStart(2, '0')}</p>
         <h2>{item.title}</h2>
         <p>{item.text}</p>
       </article>
@@ -51,7 +54,7 @@ const t = {
   </section>
 
   {copy.facts && (
-    <section class="product-facts" aria-label={t.results}>
+    <section class="product-facts" aria-label={t.results} style={project.theme.ink === 'light' ? `--fact:${project.theme.accent}` : undefined}>
       <div class="shell">
         <p class="mono section-label">{t.results}</p>
         <dl>
@@ -78,7 +81,7 @@ const t = {
     </section>
   )}
 
-  <section class="product-gallery shell" aria-label={t.screens}>
+  <section class="product-gallery shell" aria-label={t.screens} style={`--stage:${project.theme.stage}`}>
     <p class="mono section-label">{t.screens}</p>
     <div class="product-gallery-grid">
       {project.gallery.map((figure) => (

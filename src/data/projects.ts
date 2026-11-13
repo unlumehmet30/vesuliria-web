@@ -34,10 +34,19 @@ export interface ProjectCopy {
   site: { href: string; label: string };
 }
 
+/** Product stage colours and the frame its showcase screenshot sits in. */
+export interface ProjectTheme {
+  stage: string;
+  ink: 'light' | 'dark';
+  accent: string;
+}
+
 export interface Project {
   slug: string;
   name: string;
   image: ImageMetadata;
+  showcase: { image: ImageMetadata; device: 'browser' | 'phone' };
+  theme: ProjectTheme;
   year?: string;
   aspect?: 'landscape' | 'portrait' | 'square';
   gallery: Figure[];
@@ -51,6 +60,8 @@ export const projects: Project[] = [
     slug: 'avt',
     name: 'Vesuliria AVT',
     image: avtReport,
+    showcase: { image: avtReport, device: 'browser' },
+    theme: { stage: '#0f1c25', ink: 'light', accent: '#5fd4c2' },
     gallery: [
       {
         image: avtFindings,
@@ -121,6 +132,8 @@ export const projects: Project[] = [
     slug: 'sketchmindai',
     name: 'Sketchmindai',
     image: smSite,
+    showcase: { image: smStart, device: 'phone' },
+    theme: { stage: '#f2dcc6', ink: 'dark', accent: '#6c5799' },
     gallery: [
       {
         image: smCompanions,

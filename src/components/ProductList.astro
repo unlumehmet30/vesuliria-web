@@ -1,22 +1,10 @@
 ---
-import EditorialImage from './EditorialImage.astro';
+import ProductTile from './ProductTile.astro';
 import { projects } from '../data/projects';
-import { localize, type Lang } from '../i18n';
+import type { Lang } from '../i18n';
 interface Props { lang?: Lang; }
 const { lang = 'en' } = Astro.props;
 ---
-<div class="product-index">
-  {projects.map((project, index) => (
-    <a class="product-row" href={localize(lang, `/work/${project.slug}/`)}>
-      <div class="product-row-image">
-        <EditorialImage src={project.image} alt="" sizes="(max-width: 540px) 90vw, 220px" />
-      </div>
-      <div class="product-row-copy">
-        <p class="mono">{lang === 'tr' ? 'Ürün' : 'Product'} / {String(index + 1).padStart(2, '0')} · {project.copy[lang].category}</p>
-        <h3>{project.name}</h3>
-        <p>{project.copy[lang].description}</p>
-      </div>
-      <span aria-hidden="true">↗</span>
-    </a>
-  ))}
+<div class="tile-grid">
+  {projects.map((project) => <ProductTile project={project} lang={lang} compact />)}
 </div>
