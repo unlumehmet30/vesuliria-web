@@ -1,8 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Action from '../components/Action.astro';
-import EditorialImage from '../components/EditorialImage.astro';
-import landscape from '../assets/workshop/topographic-landscape.webp';
+import ProductList from '../components/ProductList.astro';
 import { localize, type Lang } from '../i18n';
 
 interface Props { lang?: Lang; }
@@ -11,36 +10,32 @@ const t = {
   en: {
     title: 'Company — Vesuliria',
     label: 'Company',
-    heading: ['Built to question', 'the obvious.'],
-    intro: 'Vesuliria is an independent technology company. Our work spans applied research, software engineering and product development.',
+    heading: ['Every claim', 'should be checkable.'],
+    intro: 'Vesuliria is an independent technology company. We build products where the evidence comes with the answer, and the person using it stays in control.',
     principles: [
-      ['Start with the problem', 'Define what needs to change before choosing how to build the software.'],
-      ['Test the assumptions', 'Use a small experiment to answer the questions that could change the design.'],
-      ['Build for daily use', 'Consider how people will use, operate and maintain the software.'],
+      ['No number without a source', 'In AVT the model cannot write figures. Every number is placed from a recorded query and the analysis is signed.'],
+      ['Measured, not promised', 'Results are reported against a baseline, with the dataset named and the limits written down.'],
+      ['The user holds the switch', 'In Sketchmindai a parent turns each AI feature on, and can delete everything with one option.'],
     ],
-    independence: 'Independence',
-    freeHeading: 'Free to follow the problem.',
-    freeText: 'We choose the methods and tools that fit each problem. Sometimes that means improving an existing system. Sometimes it means building a new one.',
+    independence: 'Two products',
+    freeHeading: 'From bank analytics to bedtime stories.',
+    freeText: 'The two products could hardly be further apart. What they share is how they are built: measured, explained and in the user’s control.',
     whatWeDo: 'What we do',
-    figureAlt: 'Pencil drawing of mountain ridges beneath a crosshair, with a rust-colored block behind the peaks',
-    figureCaption: 'Concept illustration',
   },
   tr: {
     title: 'Şirket — Vesuliria',
     label: 'Şirket',
-    heading: ['Apaçık olanı', 'sorgulamak için.'],
-    intro: 'Vesuliria bağımsız bir teknoloji şirketidir. Çalışmalarımız uygulamalı araştırma, yazılım mühendisliği ve ürün geliştirmeyi kapsar.',
+    heading: ['Her iddia', 'kontrol edilebilmeli.'],
+    intro: 'Vesuliria bağımsız bir teknoloji şirketidir. Kanıtı cevapla birlikte veren, kullanan kişiyi kontrolde tutan ürünler yaparız.',
     principles: [
-      ['Sorundan başla', 'Yazılımı nasıl kuracağımızı seçmeden önce neyin değişmesi gerektiğini tanımlarız.'],
-      ['Varsayımları sına', 'Tasarımı değiştirebilecek soruları küçük bir deneyle cevaplarız.'],
-      ['Günlük kullanım için inşa et', 'İnsanların yazılımı nasıl kullanacağını, işleteceğini ve bakımını yapacağını düşünürüz.'],
+      ['Kaynaksız sayı yok', 'AVT’de model rakam yazamaz. Her sayı kayıtlı bir sorgudan yerleştirilir ve analiz imzalanır.'],
+      ['Söz değil, ölçüm', 'Sonuçlar bir karşılaştırma noktasına göre verilir; veri kümesi adıyla, sınırlar yazılı olarak.'],
+      ['Düğme kullanıcıda', 'Sketchmindai’da her yapay zekâ özelliğini ebeveyn açar; tek seçenekle her şeyi silebilir.'],
     ],
-    independence: 'Bağımsızlık',
-    freeHeading: 'Sorunun peşinden gitmekte özgürüz.',
-    freeText: 'Her soruna uyan yöntemi ve aracı seçeriz. Bazen bu, var olan bir sistemi iyileştirmek demektir. Bazen de yenisini kurmak.',
+    independence: 'İki ürün',
+    freeHeading: 'Banka analitiğinden uyku masallarına.',
+    freeText: 'İki ürün birbirinden olabildiğince uzak. Ortak noktaları nasıl yapıldıkları: ölçülmüş, açıklanmış ve kullanıcının kontrolünde.',
     whatWeDo: 'Ne yapıyoruz',
-    figureAlt: 'Bir nişangâhın altında kurşun kalemle çizilmiş dağ sırtları; zirvelerin arkasında pas rengi bir blok',
-    figureCaption: 'Konsept illüstrasyon',
   },
 }[lang];
 ---
@@ -51,10 +46,6 @@ const t = {
       <h1>{t.heading[0]}<br />{t.heading[1]}</h1>
       <p>{t.intro}</p>
     </div>
-    <figure class="research-figure company-figure">
-      <EditorialImage src={landscape} alt={t.figureAlt} sizes="(max-width: 768px) 92vw, 88vw" />
-      <figcaption class="mono">{lang === 'tr' ? 'Şekil' : 'Fig.'} 01 <span>{t.figureCaption}</span></figcaption>
-    </figure>
     <div class="company-principles">
       {t.principles.map(([title, text]) => (
         <article>
@@ -74,5 +65,9 @@ const t = {
         <Action href={localize(lang, '/capabilities')} label={t.whatWeDo} />
       </div>
     </div>
+  </section>
+
+  <section class="company-products shell">
+    <ProductList lang={lang} />
   </section>
 </Base>

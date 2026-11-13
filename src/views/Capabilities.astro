@@ -1,9 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-import EditorialImage from '../components/EditorialImage.astro';
 import { capabilities } from '../data/site';
-import { capabilityCovers } from '../data/covers';
-import type { Lang } from '../i18n';
+import { projects } from '../data/projects';
+import { localize, type Lang } from '../i18n';
 
 interface Props { lang?: Lang; }
 const { lang = 'en' } = Astro.props;
@@ -12,17 +11,17 @@ const t = {
     title: 'Capabilities — Vesuliria',
     description: 'Applied machine learning, systems engineering, product development and experimental research at Vesuliria.',
     heading: 'Capabilities',
-    intro: 'We use research to guide what we build, from software prototypes to the systems that run them.',
+    intro: 'Four kinds of work behind our products. Open one to see where it shows up.',
     areas: 'Areas of work',
-    figureCaption: 'Concept illustration',
+    usedIn: 'Used in',
   },
   tr: {
     title: 'Yetenekler — Vesuliria',
     description: 'Vesuliria’da uygulamalı makine öğrenmesi, sistem mühendisliği, ürün geliştirme ve deneysel araştırma.',
     heading: 'Yetenekler',
-    intro: 'Yazılım prototiplerinden onları çalıştıran sistemlere kadar, ne inşa edeceğimize araştırmayla karar veririz.',
+    intro: 'Ürünlerimizin arkasındaki dört iş. Birini açın, nerede kullanıldığını görün.',
     areas: 'Çalışma alanları',
-    figureCaption: 'Konsept illüstrasyon',
+    usedIn: 'Kullanıldığı yer',
   },
 }[lang];
 ---
@@ -36,7 +35,7 @@ const t = {
 
   <section class="capabilities-body shell" aria-label={t.areas}>
     <div class="capability-list">
-      {capabilities[lang].map((item, index) => (
+      {capabilities[lang].map((item) => (
         <details class="capability" id={item.id}>
           <summary>
             <span class="capability-name">{item.name}</span>
@@ -45,18 +44,13 @@ const t = {
           </summary>
           <div class="capability-detail">
             <p>{item.detail}</p>
-            {capabilityCovers[item.id] && (
-              <figure class="research-figure">
-                <div class="cover-frame cover-wide" style={`--focus:${capabilityCovers[item.id].position}`}>
-                  <EditorialImage
-                    src={capabilityCovers[item.id].image}
-                    alt={capabilityCovers[item.id].alt[lang]}
-                    sizes="(max-width: 768px) 90vw, 720px"
-                  />
-                </div>
-                <figcaption class="mono">{lang === 'tr' ? 'Şekil' : 'Fig.'} {String(index + 1).padStart(2, '0')} <span>{t.figureCaption}</span></figcaption>
-              </figure>
-            )}
+            <p class="capability-used mono">
+              <span>{t.usedIn}</span>
+              {item.usedIn.map((slug) => {
+                const product = projects.find((p) => p.slug === slug);
+                return product && <a class="area-chip" href={localize(lang, `/work/${slug}/`)}>{product.name} →</a>;
+              })}
+            </p>
           </div>
         </details>
       ))}

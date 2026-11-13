@@ -5,7 +5,7 @@ import ProductList from '../components/ProductList.astro';
 import EditorialImage from '../components/EditorialImage.astro';
 import atlas from '../assets/workshop/research-atlas.webp';
 import { capabilities } from '../data/site';
-import { capabilityCovers } from '../data/covers';
+import { projects } from '../data/projects';
 import { localize, type Lang } from '../i18n';
 
 interface Props { lang?: Lang; }
@@ -15,8 +15,8 @@ const t = {
   en: {
     title: 'Vesuliria — Software engineering and applied research',
     kicker: 'Independent technology company',
-    heading: ['Research.', 'Engineering.', 'Products'],
-    intro: 'We test ideas through applied research and build the software and products that follow.',
+    heading: ['Software that', 'shows its work'],
+    intro: 'Vesuliria builds AI products you can check. Analytics where every number traces back to a query. A children’s app whose AI stays off until a parent says yes.',
     explore: 'Explore our capabilities',
     about: 'About Vesuliria',
     atlasAlt: 'Layered contour lines, grids and rust-colored geometric forms on paper',
@@ -27,17 +27,19 @@ const t = {
     viewCapabilities: 'View capabilities',
     how: 'How we work',
     approach: 'Our approach',
+    usedIn: 'Used in',
+    example: 'Example',
     steps: [
-      ['Define the problem', 'Identify what needs to change and how we’ll tell if it has improved.'],
-      ['Test an approach', 'Build a small prototype and measure the result against a baseline.'],
-      ['Build for daily use', 'Make the software easy to operate, diagnose and maintain.'],
+      ['Write the question down', 'Before any code: what has to change, and how will we know?', 'AVT: why did the SME default rate rise over the last 12 months?'],
+      ['Beat a baseline', 'A small prototype, measured against the simplest thing that could work.', 'AVT: F1 1.00 against 0.40 for a naive method.'],
+      ['Make it safe to run', 'Permissions, logs and deletion are built in from day one.', 'Sketchmindai: every AI feature is off until a parent turns it on.'],
     ],
   },
   tr: {
     title: 'Vesuliria — Yazılım mühendisliği ve uygulamalı araştırma',
     kicker: 'Bağımsız teknoloji şirketi',
-    heading: ['Araştırma.', 'Mühendislik.', 'Ürünler'],
-    intro: 'Fikirleri uygulamalı araştırmayla sınar, ardından gelen yazılımı ve ürünleri inşa ederiz.',
+    heading: ['Ne yaptığını', 'gösteren yazılım'],
+    intro: 'Vesuliria, kontrol edilebilen yapay zekâ ürünleri yapar. Her sayısı bir sorguya dayanan bir analitik. Yapay zekâsı ebeveyn izin verene kadar kapalı duran bir çocuk uygulaması.',
     explore: 'Yeteneklerimize göz atın',
     about: 'Vesuliria hakkında',
     atlasAlt: 'Kâğıt üzerinde katmanlı eş yükselti çizgileri, ızgaralar ve pas rengi geometrik biçimler',
@@ -48,10 +50,12 @@ const t = {
     viewCapabilities: 'Yetenekleri görün',
     how: 'Nasıl çalışırız',
     approach: 'Yaklaşımımız',
+    usedIn: 'Kullanıldığı yer',
+    example: 'Örnek',
     steps: [
-      ['Sorunu tanımla', 'Neyin değişmesi gerektiğini ve iyileştiğini nasıl anlayacağımızı belirleriz.'],
-      ['Bir yaklaşım dene', 'Küçük bir prototip kurar, sonucu bir karşılaştırma noktasına göre ölçeriz.'],
-      ['Günlük kullanım için inşa et', 'Yazılımı işletmesi, sorununu bulması ve bakımı kolay hale getiririz.'],
+      ['Soruyu yaz', 'Koddan önce: ne değişmeli ve değiştiğini nasıl anlayacağız?', 'AVT: son 12 ayda KOBİ temerrüt oranı neden arttı?'],
+      ['Basit yöntemi geç', 'Küçük bir prototip, işe yarayabilecek en basit yönteme karşı ölçülür.', 'AVT: klasik yöntemin 0,40’ına karşı F1 1,00.'],
+      ['Güvenle çalışsın', 'İzinler, kayıtlar ve silme ilk günden içinde gelir.', 'Sketchmindai: ebeveyn açana kadar her yapay zekâ özelliği kapalı.'],
     ],
   },
 }[lang];
@@ -60,7 +64,7 @@ const t = {
   <section class="brand-hero shell">
     <div class="brand-hero-copy">
       <p class="brand-kicker">{t.kicker}</p>
-      <h1>{t.heading[0]}<br />{t.heading[1]}<br />{t.heading[2]}<span>.</span></h1>
+      <h1>{t.heading[0]}<br />{t.heading[1]}<span>.</span></h1>
       <p class="brand-intro">{t.intro}</p>
       <div class="brand-actions">
         <a class="brand-button" href="#areas">{t.explore} <span aria-hidden="true">↓</span></a>
@@ -95,34 +99,42 @@ const t = {
         <h2>{t.areas}</h2>
         <Action href={l('/capabilities')} label={t.viewCapabilities} />
       </div>
-      <div class="section-covers">
-        {capabilities[lang].map((capability, index) => {
-          const cover = capabilityCovers[capability.id];
-          return (
-            <a class="section-cover" href={`${l('/capabilities')}#${capability.id}`}>
-              {cover && (
-                <div class="cover-frame" style={`--focus:${cover.position}`}>
-                  <EditorialImage src={cover.image} alt="" sizes="(max-width: 540px) 90vw, (max-width: 1100px) 45vw, 22vw" />
-                </div>
-              )}
-              <p class="mono cover-index">/ {String(index + 1).padStart(2, '0')}</p>
-              <h3>{capability.name}</h3>
-              <p>{capability.description}</p>
+      <ol class="area-list">
+        {capabilities[lang].map((capability, index) => (
+          <li>
+            <a class="area-row" href={`${l('/capabilities')}#${capability.id}`}>
+              <span class="area-index">{String(index + 1).padStart(2, '0')}</span>
+              <span class="area-main">
+                <span class="area-name">{capability.name}</span>
+                <span class="area-text">{capability.description}</span>
+              </span>
+              <span class="area-used mono">
+                <span class="area-used-label">{t.usedIn}</span>
+                {capability.usedIn.map((slug) => <span class="area-chip">{projects.find((p) => p.slug === slug)?.name}</span>)}
+              </span>
+              <span class="area-arrow" aria-hidden="true">→</span>
             </a>
-          );
-        })}
-      </div>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
   <section class="systems-method">
-    <div class="shell systems-method-grid">
+    <div class="shell method-grid">
       <div>
         <h2>{t.how}</h2>
         <Action href={l('/company')} label={t.approach} />
       </div>
-      <ol class="systems-steps">
-        {t.steps.map(([title, text]) => <li><h3>{title}</h3><p>{text}</p></li>)}
+      <ol class="method-steps">
+        {t.steps.map(([title, text, example], index) => (
+          <li>
+            <span class="method-index">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+            <p class="method-example"><span class="mono">{t.example}</span>{example}</p>
+          </li>
+        ))}
       </ol>
     </div>
   </section>
