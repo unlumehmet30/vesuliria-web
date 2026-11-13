@@ -1,28 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import Project from '../components/Project.astro';
-import ProductList from '../components/ProductList.astro';
 import { projects } from '../data/projects';
 ---
-<Base dark title="Work — Vesuliria" description="Projects and experiments from Vesuliria as they become public.">
+<Base dark title="Work — Vesuliria" description="Products and projects from Vesuliria.">
   <section class="work-intro shell">
     <div class="work-heading">
       <h1>Work</h1>
     </div>
   </section>
 
-  <section class="systems-areas paper" aria-labelledby="work-products">
-    <div class="shell">
-      <div class="systems-section-heading">
-        <h2 id="work-products">Products</h2>
-      </div>
-      <ProductList />
-    </div>
+  <section class="project-grid shell" aria-label="Products">
+    {projects.map((project) => <Project project={project} />)}
   </section>
-
-  {projects.length > 0 && (
-    <section class="project-grid shell" aria-label="Projects">
-      {projects.map((project) => <Project project={project} />)}
-    </section>
-  )}
 </Base>
