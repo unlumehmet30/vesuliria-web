@@ -14,9 +14,10 @@ License: https://unsplash.com/license. Astro generates responsive AVIF and WebP 
 ## Workshop illustrations
 
 - `src/assets/workshop/research-atlas.webp` is the supplied kit’s `cover_13_hero_research_atlas.webp`, used on Home.
-- `src/assets/workshop/flow-diagram.webp` is the supplied kit’s `cover_08_flow_diagram.webp`, used under Experimental research on Capabilities.
+- `src/assets/workshop/data-particle-field.webp` (`cover_03`), `flow-diagram.webp` (`cover_08`), `mechanical-drawing.webp` (`cover_10`) and `waveform-measurement.webp` (`cover_09`) are the section covers for Applied machine learning, Systems engineering, Product development and Experimental research on Home and Capabilities. The mapping lives in `src/data/covers.ts`.
+- `src/assets/workshop/topographic-landscape.webp` (`cover_07`) is the figure on Company.
 
-Both are credited to the user-provided Independent Workshop Visual Identity Kit and labeled as concept illustrations on the site. The reference boards are kept outside the site.
+All are credited to the user-provided Independent Workshop Visual Identity Kit and labeled as concept illustrations on the site. The reference boards are kept outside the site.
 
 ## Typefaces
 

@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Action from '../components/Action.astro';
+import EditorialImage from '../components/EditorialImage.astro';
+import landscape from '../assets/workshop/topographic-landscape.webp';
 import { localize, type Lang } from '../i18n';
 
 interface Props { lang?: Lang; }
@@ -20,6 +22,8 @@ const t = {
     freeHeading: 'Free to follow the problem.',
     freeText: 'We choose the methods and tools that fit each problem. Sometimes that means improving an existing system. Sometimes it means building a new one.',
     whatWeDo: 'What we do',
+    figureAlt: 'Pencil drawing of mountain ridges beneath a crosshair, with a rust-colored block behind the peaks',
+    figureCaption: 'Concept illustration',
   },
   tr: {
     title: 'Şirket — Vesuliria',
@@ -35,6 +39,8 @@ const t = {
     freeHeading: 'Sorunun peşinden gitmekte özgürüz.',
     freeText: 'Her soruna uyan yöntemi ve aracı seçeriz. Bazen bu, var olan bir sistemi iyileştirmek demektir. Bazen de yenisini kurmak.',
     whatWeDo: 'Ne yapıyoruz',
+    figureAlt: 'Bir nişangâhın altında kurşun kalemle çizilmiş dağ sırtları; zirvelerin arkasında pas rengi bir blok',
+    figureCaption: 'Konsept illüstrasyon',
   },
 }[lang];
 ---
@@ -45,6 +51,10 @@ const t = {
       <h1>{t.heading[0]}<br />{t.heading[1]}</h1>
       <p>{t.intro}</p>
     </div>
+    <figure class="research-figure company-figure">
+      <EditorialImage src={landscape} alt={t.figureAlt} sizes="(max-width: 768px) 92vw, 88vw" />
+      <figcaption class="mono">{lang === 'tr' ? 'Şekil' : 'Fig.'} 01 <span>{t.figureCaption}</span></figcaption>
+    </figure>
     <div class="company-principles">
       {t.principles.map(([title, text]) => (
         <article>

@@ -5,6 +5,7 @@ import ProductList from '../components/ProductList.astro';
 import EditorialImage from '../components/EditorialImage.astro';
 import atlas from '../assets/workshop/research-atlas.webp';
 import { capabilities } from '../data/site';
+import { capabilityCovers } from '../data/covers';
 import { localize, type Lang } from '../i18n';
 
 interface Props { lang?: Lang; }
@@ -94,14 +95,22 @@ const t = {
         <h2>{t.areas}</h2>
         <Action href={l('/capabilities')} label={t.viewCapabilities} />
       </div>
-      <div class="systems-area-grid">
-        {capabilities[lang].map((capability) => (
-          <a class="systems-area" href={`${l('/capabilities')}#${capability.id}`}>
-            <h3>{capability.name}</h3>
-            <p>{capability.description}</p>
-            <span aria-hidden="true">↗</span>
-          </a>
-        ))}
+      <div class="section-covers">
+        {capabilities[lang].map((capability, index) => {
+          const cover = capabilityCovers[capability.id];
+          return (
+            <a class="section-cover" href={`${l('/capabilities')}#${capability.id}`}>
+              {cover && (
+                <div class="cover-frame" style={`--focus:${cover.position}`}>
+                  <EditorialImage src={cover.image} alt="" sizes="(max-width: 540px) 90vw, (max-width: 1100px) 45vw, 22vw" />
+                </div>
+              )}
+              <p class="mono cover-index">/ {String(index + 1).padStart(2, '0')}</p>
+              <h3>{capability.name}</h3>
+              <p>{capability.description}</p>
+            </a>
+          );
+        })}
       </div>
     </div>
   </section>

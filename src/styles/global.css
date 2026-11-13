@@ -916,3 +916,30 @@
     white-space: normal;
   }
 }
+
+/* Section covers and product index */
+.section-covers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--rule)}
+.section-cover{display:flex;flex-direction:column;padding:22px clamp(14px,1.6vw,26px) 30px;border-right:1px solid var(--rule)}
+.section-cover:first-child{padding-left:0}.section-cover:last-child{padding-right:0;border-right:0}
+.cover-frame{aspect-ratio:2/1;overflow:hidden;background:var(--stone)}
+.cover-frame img{object-position:var(--focus,50% 50%);transition:transform 700ms var(--ease)}
+.cover-wide{aspect-ratio:3/1}
+.section-cover:hover .cover-frame img{transform:scale(1.03)}
+.cover-index{color:var(--link-color);margin:20px 0 10px}
+.section-cover h3{font-size:clamp(24px,2.1vw,34px);margin-bottom:10px}
+.section-cover>p:last-child{color:var(--muted);font-size:14px}
+.section-cover:hover h3{color:var(--link-color)}
+.product-index{border-top:1px solid var(--rule)}
+.product-row{display:grid;grid-template-columns:clamp(150px,17vw,240px) minmax(0,1fr) 24px;gap:clamp(18px,3vw,44px);align-items:center;padding-block:22px;border-bottom:1px solid var(--rule)}
+.product-row-image{aspect-ratio:4/3;overflow:hidden;background:var(--stone)}
+.product-row-image img{object-position:top left;transition:transform 700ms var(--ease)}
+.product-row:hover .product-row-image img{transform:scale(1.03)}
+.product-row-copy .mono{color:var(--muted)}
+.product-row h3{font-size:clamp(26px,2.8vw,42px);margin:8px 0 8px}
+.product-row-copy>p:last-child{color:var(--muted);font-size:14px;max-width:60ch}
+.product-row>span{align-self:start;padding-top:4px}
+.product-row:hover h3{color:var(--link-color)}
+.company-figure{max-width:none;margin:0 0 50px}
+@media(max-width:1100px){.section-covers{grid-template-columns:repeat(2,minmax(0,1fr))}.section-cover:nth-child(2n){padding-right:0;border-right:0}.section-cover:nth-child(2n+1){padding-left:0}.section-cover:nth-child(n+3){border-top:1px solid var(--rule)}}
+@media(max-width:540px){.section-covers{grid-template-columns:minmax(0,1fr)}.section-cover{padding-inline:0;border-right:0}.section-cover+.section-cover{border-top:1px solid var(--rule)}.product-row{grid-template-columns:minmax(0,1fr);gap:16px}.product-row>span{display:none}}
+.research-figure .cover-frame picture,.research-figure .cover-frame img{height:100%}

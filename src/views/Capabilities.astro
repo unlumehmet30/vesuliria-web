@@ -1,8 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import EditorialImage from '../components/EditorialImage.astro';
-import flowDiagram from '../assets/workshop/flow-diagram.webp';
 import { capabilities } from '../data/site';
+import { capabilityCovers } from '../data/covers';
 import type { Lang } from '../i18n';
 
 interface Props { lang?: Lang; }
@@ -14,7 +14,6 @@ const t = {
     heading: 'Capabilities',
     intro: 'We use research to guide what we build, from software prototypes to the systems that run them.',
     areas: 'Areas of work',
-    figureAlt: 'Parallel lines curve around a circular form in a schematic drawing',
     figureCaption: 'Concept illustration',
   },
   tr: {
@@ -23,7 +22,6 @@ const t = {
     heading: 'Yetenekler',
     intro: 'Yazılım prototiplerinden onları çalıştıran sistemlere kadar, ne inşa edeceğimize araştırmayla karar veririz.',
     areas: 'Çalışma alanları',
-    figureAlt: 'Şematik bir çizimde dairesel bir biçimin etrafında kıvrılan paralel çizgiler',
     figureCaption: 'Konsept illüstrasyon',
   },
 }[lang];
@@ -38,7 +36,7 @@ const t = {
 
   <section class="capabilities-body shell" aria-label={t.areas}>
     <div class="capability-list">
-      {capabilities[lang].map((item) => (
+      {capabilities[lang].map((item, index) => (
         <details class="capability" id={item.id}>
           <summary>
             <span class="capability-name">{item.name}</span>
@@ -47,14 +45,16 @@ const t = {
           </summary>
           <div class="capability-detail">
             <p>{item.detail}</p>
-            {item.id === 'experimental-research' && (
+            {capabilityCovers[item.id] && (
               <figure class="research-figure">
-                <EditorialImage
-                  src={flowDiagram}
-                  alt={t.figureAlt}
-                  sizes="(max-width: 768px) 90vw, 720px"
-                />
-                <figcaption class="mono">{t.figureCaption}</figcaption>
+                <div class="cover-frame cover-wide" style={`--focus:${capabilityCovers[item.id].position}`}>
+                  <EditorialImage
+                    src={capabilityCovers[item.id].image}
+                    alt={capabilityCovers[item.id].alt[lang]}
+                    sizes="(max-width: 768px) 90vw, 720px"
+                  />
+                </div>
+                <figcaption class="mono">{lang === 'tr' ? 'Şekil' : 'Fig.'} {String(index + 1).padStart(2, '0')} <span>{t.figureCaption}</span></figcaption>
               </figure>
             )}
           </div>
